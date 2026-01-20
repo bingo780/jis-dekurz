@@ -469,30 +469,14 @@ function runOCR(input) {
     {
       logger: m => {
         if(m.status === 'recognizing text'){
-          progressBar.style.width = (m.progress * 100) + '%';
+          progressBar.style.width = (m.progress * 100) + '%';c
           status.textContent = `Rozpoznávam text: ${Math.round(m.progress * 100)}%`;
         } else {
           status.textContent = m.status;
         }
       }
     }
-  ).then(({ data: { text } }) => {
-    status.textContent = "Hotovo ✅";
-    setTimeout(() => {
-        progressContainer.style.display = "none";
-        status.style.display = "none";
-    }, 2000);
-    
-    txtArea.value = text;
-    OCR_parse(); 
-    alert("Text bol rozpoznaný a údaje doplnené (skontrolujte polia).");
-  }).catch(err => {
-    console.error(err);
-    status.textContent = "Chyba: " + err.message;
-    alert("Nepodarilo sa rozpoznať text. Skúste kvalitnejšiu fotku.");
-  });
-  input.value = "";
-}
+  ).
 
 function OCR_parse(){
   const t = document.getElementById("ocr_raw").value;
@@ -1138,3 +1122,4 @@ function importRealizacie(input){const file=input.files[0];if(!file)return;const
 </script>
 </body>
 </html>
+
