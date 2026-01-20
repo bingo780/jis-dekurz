@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
-<title>Sesterské diagnózy – KJ JIS – v1.9.10 (GitHub Complete)</title>
+<title>Sesterské diagnózy – KJ JIS – v1.9.11 (Fixed)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 
@@ -104,7 +104,7 @@ button:active{background:var(--primary-dark)}
   body * { visibility: hidden; }
   #printArea, #printArea * { visibility: visible; }
   
-  /* NOVÉ: Ak je checkbox vypnutý, skryjeme podklad */
+  /* Ak je checkbox vypnutý, skryjeme podklad */
   body.no-bg-print .print-bg-container { display: none !important; }
 
   @page { margin: 0; size: A4 portrait; }
@@ -141,7 +141,6 @@ button:active{background:var(--primary-dark)}
   .pos-header { position: absolute; left: 46mm; top: 14mm; width: 120mm; font-size: 9pt; font-weight: bold; }
   .pos-left { position: absolute; left: 42mm; top: 42mm; width: 90mm; font-size: 9pt; font-weight: bold; }
   
-  /* Upravené riadkovanie pre pravý stĺpec - NEZMENENÉ */
   .pos-col-right-1 { position: absolute; left: 165mm; top: 42mm; width: 35mm; font-size: 7.2pt; line-height: 1.1; overflow-wrap: anywhere; }
   .pos-col-right-2 { position: absolute; left: 165mm; top: 26mm; width: 35mm; font-size: 7.2pt; line-height: 1.1; overflow-wrap: anywhere; }
   
@@ -169,7 +168,7 @@ button:active{background:var(--primary-dark)}
 
 <div class="no-print">
 <h1>Sesterské diagnózy – KJ JIS</h1>
-<div class="sub">Verzia <b>1.9.10</b> · GitHub Complete</div>
+<div class="sub">Verzia <b>1.9.11</b> · GitHub Complete (Opravené OCR)</div>
 
 <div class="card" style="border-color: var(--save-green); background: #fdfdfd;">
     <div class="section-title" style="color:var(--save-green); margin-top:0;">💾 Záloha práce</div>
@@ -443,7 +442,7 @@ function checkPass(){
 function handleEnter(e){ if(e.key === 'Enter') checkPass(); }
 
 /* =================================
-   OCR / TESSERACT LOGIKA
+   OCR / TESSERACT LOGIKA (OPRAVENÁ)
    ================================= */
 function openCamera(){ document.getElementById("cameraInput").click(); }
 function openImageFile(){ document.getElementById("fileImageInput").click(); }
@@ -469,14 +468,31 @@ function runOCR(input) {
     {
       logger: m => {
         if(m.status === 'recognizing text'){
-          progressBar.style.width = (m.progress * 100) + '%';c
+          progressBar.style.width = (m.progress * 100) + '%';
           status.textContent = `Rozpoznávam text: ${Math.round(m.progress * 100)}%`;
         } else {
           status.textContent = m.status;
         }
       }
     }
-  ).
+  ).then(({ data: { text } }) => {
+      // ÚSPECH
+      status.textContent = "Hotovo! Spracovávam...";
+      progressBar.style.width = "100%";
+      txtArea.value = text;
+      
+      // Automaticky spustiť parsovanie po 0.8s
+      setTimeout(() => {
+          progressContainer.style.display = "none";
+          OCR_parse(); 
+      }, 800);
+  }).catch(err => {
+      // CHYBA
+      console.error(err);
+      status.textContent = "Chyba: " + err.message;
+      txtArea.value = "Nepodarilo sa rozpoznať text.";
+  });
+}
 
 function OCR_parse(){
   const t = document.getElementById("ocr_raw").value;
@@ -1122,4 +1138,3 @@ function importRealizacie(input){const file=input.files[0];if(!file)return;const
 </script>
 </body>
 </html>
-
