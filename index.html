@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>Sesterské diagnózy – KJ JIS – v1.9.10 (GitHub Complete)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+
+<style>
+/* ZÁKLADNÉ ŠTÝLY */
+:root{
+  --bg:#eef2f6;--card:#fff;--border:#d9e0e8;
+  --primary:#2f6fed;--primary-dark:#2457ba;
+  --student:#1f4fd8;--admin-blue:#1f4fd8;
+  --save-green:#107c10;
+  --text:#1a1a1a;--muted:#5f6b7a;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial;
+  margin:16px;background:var(--bg);color:var(--text);
+  -webkit-touch-callout:none;
+}
+
+/* LOGIN SCREEN */
+#login-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #eef2f6; z-index: 9999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.login-box {
+    background: white; padding: 30px; border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
+    width: 300px; max-width: 90%;
+}
+.login-box h2 { margin-top: 0; color: var(--primary); }
+.login-box input { 
+    font-size: 24px; text-align: center; letter-spacing: 5px; 
+    margin: 20px 0; padding: 10px; width: 100%; border: 2px solid #ddd; border-radius: 8px;
+}
+.login-box button { width: 100%; padding: 12px; font-size: 16px; margin: 0; }
+#app-content { display: none; }
+
+/* OSTATNÉ ŠTÝLY */
+h1{font-size:22px;margin-bottom:4px}
+.sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:14px;margin-bottom:14px}
+label{font-weight:600; font-size: 14px; color: #333;}
+textarea,select,input{
+  width:100%;margin-top:6px;padding:8px 10px;
+  border-radius:8px;border:1px solid var(--border);font-size:15px;
+  box-sizing: border-box;
+}
+textarea { resize: vertical; min-height: 60px; font-family: inherit; }
+button{
+  padding:10px 16px;margin:8px 4px 0 0;border-radius:8px;
+  border:none;background:var(--primary);color:#fff;font-size:15px;
+  touch-action:manipulation;font-weight:600;cursor:pointer;
+  transition: background 0.2s;
+}
+button:active{background:var(--primary-dark)}
+.btn-save { background: var(--save-green); }
+.btn-secondary { background: #6c757d; }
+.btn-delete { background: #d32f2f; padding: 4px 10px; font-size: 12px; margin: 0; }
+
+.section-title {
+    font-size: 16px; color: var(--primary); font-weight: bold; 
+    margin-top: 20px; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 5px;
+}
+.row { display: flex; gap: 10px; align-items: flex-end; }
+.row > * { flex: 1; }
+.admin-card { background:#f0f4ff; border:2px solid var(--admin-blue); }
+.admin-card h3 { color:var(--admin-blue); margin:0 0 10px 0; font-size: 18px; }
+.btn-admin { background:var(--admin-blue); }
+
+/* FORMIK ŠTÝLY */
+.formik-card-settings { border:2px solid #1f4fd8; background:#f0f4ff; }
+.formik-title { color:#1f4fd8; margin-top:0; }
+
+.switch{display:flex;align-items:center;gap:10px}
+.switch input{appearance:none;width:46px;height:26px;background:#ccc;
+  border-radius:13px;position:relative}
+.switch input:checked{background:#0a84ff}
+.switch input::before{content:'';position:absolute;width:22px;height:22px;
+  top:2px;left:2px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked::before{left:22px}
+
+/* Progress bar pre OCR */
+#ocrProgress {
+  width: 100%; height: 6px; background: #ddd; margin-top: 10px; border-radius: 3px; display: none; overflow: hidden;
+}
+#ocrBar {
+  width: 0%; height: 100%; background: var(--save-green); transition: width 0.3s;
+}
+#ocrStatus { font-size: 12px; color: var(--muted); margin-top: 4px; display: none; }
+
+/* TLAČ */
+#printArea { display: none; }
+
+@media print {
+  #login-screen { display: none !important; }
+  #app-content { display: block !important; }
+  
+  body * { visibility: hidden; }
+  #printArea, #printArea * { visibility: visible; }
+  
+  /* NOVÉ: Ak je checkbox vypnutý, skryjeme podklad */
+  body.no-bg-print .print-bg-container { display: none !important; }
+
+  @page { margin: 0; size: A4 portrait; }
+  body { margin: 0; padding: 0; background: none; }
+  #printArea { position: absolute; left: 0; top: 0; width: 210mm; }
+  
+  #page1 { position: relative; width: 210mm; height: 297mm; page-break-after: always; overflow: hidden; border: none !important; }
+  #page2 { position: relative; width: 210mm; height: 297mm; page-break-after: avoid; overflow: hidden; border: none !important; }
+  
+  .print-bg-container { 
+      position: absolute; left: 0; top: 0; width: 100%; height: 100%; 
+      z-index: 0; border: none !important; 
+      line-height: 0; font-size: 0; display: block;
+  }
+  
+  #printBgImg, #printBgImg2 { 
+    display: block; 
+    transform-origin: top left; 
+    position: absolute; 
+    left: -1mm; top: -1mm; 
+    width: 212mm; height: 299mm;
+    object-fit: cover; 
+    border: none !important; 
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  #printBgImg { transform: translate(var(--bgX, 0mm), var(--bgY, 0mm)) scale(var(--bgScale, 1)); }
+  #printBgImg2 { transform: translate(var(--bg2X, 0mm), var(--bg2Y, 0mm)) scale(var(--bg2Scale, 1)); }
+  
+  #textLayer1, #textLayer2 { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; border: none; }
+  #textLayer1 { transform: translate(var(--txX, 0mm), var(--txY, 0mm)); transform-origin: top left; }
+
+  .pos-header { position: absolute; left: 46mm; top: 14mm; width: 120mm; font-size: 9pt; font-weight: bold; }
+  .pos-left { position: absolute; left: 42mm; top: 42mm; width: 90mm; font-size: 9pt; font-weight: bold; }
+  
+  /* Upravené riadkovanie pre pravý stĺpec - NEZMENENÉ */
+  .pos-col-right-1 { position: absolute; left: 165mm; top: 42mm; width: 35mm; font-size: 7.2pt; line-height: 1.1; overflow-wrap: anywhere; }
+  .pos-col-right-2 { position: absolute; left: 165mm; top: 26mm; width: 35mm; font-size: 7.2pt; line-height: 1.1; overflow-wrap: anywhere; }
+  
+  .pos-free { position: absolute; left: 35mm; top: 195mm; width: 125mm; font-size: 8pt; white-space: pre-wrap; }
+  
+  .dg-item { margin-bottom: 3px; border: none; }
+  .footer-item { margin-top: 4px; border-top: none !important; padding-top: 5px; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="login-screen">
+    <div class="login-box">
+        <h2>🔒 Zabezpečený prístup</h2>
+        <div style="font-size:13px; color:#666; margin-bottom:10px;">JIS Dekurz & Formik</div>
+        <input type="tel" id="passInput" placeholder="Kód" maxlength="4" onkeypress="handleEnter(event)">
+        <button onclick="checkPass()">Odomknúť</button>
+        <div id="login-error" style="color:red; margin-top:10px; font-size:12px; display:none;">Nesprávny kód!</div>
+    </div>
+</div>
+
+<div id="app-content">
+
+<div class="no-print">
+<h1>Sesterské diagnózy – KJ JIS</h1>
+<div class="sub">Verzia <b>1.9.10</b> · GitHub Complete</div>
+
+<div class="card" style="border-color: var(--save-green); background: #fdfdfd;">
+    <div class="section-title" style="color:var(--save-green); margin-top:0;">💾 Záloha práce</div>
+    <div class="row">
+        <button type="button" class="btn-save" onclick="saveSession()">Uložiť rozpracované</button>
+        <button type="button" class="btn-secondary" onclick="document.getElementById('loadInput').click()">Načítať rozpracované</button>
+        <input type="file" id="loadInput" accept=".json" style="display:none" onchange="loadSession(this)">
+    </div>
+</div>
+
+<div class="card" style="border: 2px solid var(--primary);">
+    <div class="section-title" style="margin-top:0;">🖨️ Nastavenie tlače (GitHub)</div>
+    <div class="sub">Automaticky načíta obrázky z priečinka na serveri.</div>
+    
+    <label>Výber podkladu pre 1. stranu</label>
+    <select id="github_bg_select" style="font-weight:bold; color:var(--primary); margin-bottom:15px; width:100%; padding:10px;">
+        <option value="podklad_strana1_A.jpg">Typ A (podklad_strana1_A.jpg)</option>
+        <option value="podklad_strana1_B.jpg">Typ B (podklad_strana1_B.jpg)</option>
+    </select>
+
+    <div class="switch">
+        <input type="checkbox" id="use_bg_print" checked>
+        <label for="use_bg_print">Tlačiť aj obrázok podkladu (vypni pre predtlačené tlačivá)</label>
+    </div>
+</div>
+
+<div class="card">
+  <div class="section-title">📄 Sken / OCR (Doklady a Správy)</div>
+  <div class="sub">Automaticky načíta údaje z občianskeho preukazu alebo prepúšťacej správy.</div>
+  
+  <div class="row">
+      <button type="button" onclick="openCamera()" style="flex:1;">📸 Odfotiť správu/doklad</button>
+      <button type="button" class="btn-secondary" onclick="openImageFile()" style="flex:1;">🖼️ Nahrať súbor</button>
+  </div>
+  
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" onchange="runOCR(this)">
+  <input type="file" id="fileImageInput" accept="image/*" style="display:none" onchange="runOCR(this)">
+
+  <div id="ocrProgress"><div id="ocrBar"></div></div>
+  <div id="ocrStatus">Inicializujem OCR...</div>
+
+  <label style="margin-top:10px;">Rozpoznaný text (možnosť upraviť)</label>
+  <textarea id="ocr_raw" placeholder="Tu sa objaví text po skenovaní..." style="border:2px dashed var(--primary); min-height:80px;"></textarea>
+  <button type="button" onclick="OCR_parse()" style="width:100%; margin-top:5px; background:#444;">⬇️ Použiť text a vyplniť údaje</button>
+</div>
+
+<div class="card">
+  <div class="section-title">👤 Údaje pacienta</div>
+  <div class="row">
+    <div><label>Meno</label><input id="pac_meno"></div>
+    <div><label>Priezvisko</label><input id="pac_priezvisko"></div>
+  </div>
+  <div class="row">
+    <div><label>Rodné číslo</label><input id="pac_rc"></div>
+    <div><label>Poisťovňa (Kód)</label><input id="pac_pois" placeholder="Napr. 25, 24, 27"></div>
+  </div>
+  <label>Lekárska diagnóza (ICD-10)</label>
+  <input id="pac_icd">
+</div>
+
+<div class="card">
+<label>Lekárska diagnóza (Rýchly výber sady)</label>
+<select id="lekarska" onchange="loadDiagnostiky()">
+<option value="">— vyber (načíta sadu diagnóz) —</option>
+<option value="IM">Infarkt myokardu</option>
+<option value="AP">Angína pectoris</option>
+<option value="NAP">Nestabilná angína pectoris</option>
+<option value="EDEM">Edém pľúc</option>
+<option value="PE">Pľúčna embólia</option>
+<option value="DVT">Tromboembolická choroba DK/HK</option>
+<option value="ARYTMIA">Poruchy rytmu / AV blok</option>
+<option value="SEPSA">Sepsa</option>
+<option value="HT">Hypertenzia</option>
+<option value="HYPO">Hypotenzia</option>
+</select>
+
+<label style="margin-top: 15px; display:block;">➕ Pridať inú diagnózu</label>
+<div class="row">
+    <select id="manualDgSelect"><option>Načítavam...</option></select>
+    <button type="button" onclick="addManualDg()" style="flex:0 0 80px; margin-top:6px;">Pridať</button>
+</div>
+</div>
+
+<div id="editor"></div>
+
+<div class="card">
+<label>Sestra</label>
+<select id="sestra"></select>
+<input id="newNurse" placeholder="Meno sestry">
+<button type="button" onclick="addNurse()">Pridať</button>
+<button type="button" onclick="removeNurse()">Odobrať</button>
+</div>
+
+<div class="card">
+<label>Preddefinované poznámky</label>
+<select id="noteSelect" onchange="applyNoteMain()"></select>
+<input id="newNoteKey" placeholder="Názov poznámky">
+<textarea id="newNoteText" placeholder="Text poznámky"></textarea>
+<button type="button" onclick="addNoteMain()">Pridať / aktualizovať</button>
+<button type="button" onclick="removeNoteMain()">Odstrániť</button>
+</div>
+
+<div class="card">
+<label>Poznámka (celková)</label>
+<textarea id="poznamka" placeholder="Sem sa automaticky doplní 'Záver' z prepúšťacej správy..."></textarea>
+</div>
+
+<div class="card">
+<div class="switch">
+<input type="checkbox" id="freePrint">
+<label for="freePrint">Tlač voľný text (na spodok 1. strany - vľavo)</label>
+</div>
+<label>Preddefinované texty – voľný text</label>
+<select id="freeNoteSelect" onchange="applyNoteFree()"></select>
+<input id="newFreeNoteKey" placeholder="Názov textu">
+<textarea id="newFreeNoteText" placeholder="Text pre voľný text"></textarea>
+<button type="button" onclick="addNoteFree()">Pridať / aktualizovať</button>
+<button type="button" onclick="removeNoteFree()">Odstrániť</button>
+<textarea id="freeText" placeholder="Voľný text (doplnkový)"></textarea>
+</div>
+
+<button type="button" id="settingsBtn" onclick="toggleSettings()" 
+        style="width:100%; padding:15px; font-weight:bold; margin-bottom:15px; border:2px dashed #999; color:#444; background:#eee;">
+    ⚙️ Rozšírené nastavenia, Tlač, Formik & Master
+</button>
+
+<div id="settingsPanel" style="display:none; border-left: 4px solid #ccc; padding-left: 10px; margin-bottom: 20px;">
+    
+    <div class="card">
+      <div class="section-title">🖼️ Podklad do PROFI tlače (Strana 1)</div>
+      <div class="row">
+        <button type="button" class="btn-secondary" onclick="document.getElementById('printBgInput').click()">🖼️ Načítať podkladový obrázok</button>
+        <button type="button" class="btn-delete" onclick="clearPrintBackground()">Vymazať</button>
+      </div>
+      <input type="file" id="printBgInput" accept="image/*" style="display:none" onchange="loadPrintBackground(this)">
+      
+      <hr style="margin:12px 0; border:none; border-top:1px solid #d9e0e8;">
+      <div style="font-size:13px; color:var(--muted); margin-bottom:6px;">Nastavenie podkladu (zoom/posun)</div>
+      <label style="font-size:12px;">Zoom (%)</label>
+      <input id="bgZoom" type="range" min="50" max="150" value="100" oninput="setBgZoom(this.value)">
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;"><span id="bgZoomVal">100</span> %</div>
+      <div class="row" style="margin-top:8px;">
+        <div style="flex:1;"><label style="font-size:12px;">Posun X (mm)</label><input id="bgX" type="number" value="0" step="1" oninput="setBgOffset()"></div>
+        <div style="flex:1;"><label style="font-size:12px;">Posun Y (mm)</label><input id="bgY" type="number" value="0" step="1" oninput="setBgOffset()"></div>
+      </div>
+      <div class="row" style="margin-top:8px;">
+        <button type="button" class="btn-secondary" onclick="resetBgTransform()" style="flex:1;">↩️ Reset</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🖼️ Podklad do PROFI tlače (Strana 2)</div>
+      <div class="row">
+        <button type="button" class="btn-secondary" onclick="document.getElementById('printBgInput2').click()">🖼️ Načítať podkladový obrázok (2)</button>
+        <button type="button" class="btn-delete" onclick="clearPrintBackground2()">Vymazať</button>
+      </div>
+      <input type="file" id="printBgInput2" accept="image/*" style="display:none" onchange="loadPrintBackground2(this)">
+
+      <hr style="margin:12px 0; border:none; border-top:1px solid #d9e0e8;">
+      <div style="font-size:13px; color:var(--muted); margin-bottom:6px;">Nastavenie podkladu 2 (zoom/posun)</div>
+      <label style="font-size:12px;">Zoom 2 (%)</label>
+      <input id="bg2Zoom" type="range" min="50" max="150" value="100" oninput="setBg2Zoom(this.value)">
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;"><span id="bg2ZoomVal">100</span> %</div>
+      <div class="row" style="margin-top:8px;">
+        <div style="flex:1;"><label style="font-size:12px;">Posun 2 X (mm)</label><input id="bg2X" type="number" value="0" step="1" oninput="setBg2Offset()"></div>
+        <div style="flex:1;"><label style="font-size:12px;">Posun 2 Y (mm)</label><input id="bg2Y" type="number" value="0" step="1" oninput="setBg2Offset()"></div>
+      </div>
+      <div class="row" style="margin-top:8px;">
+        <button type="button" class="btn-secondary" onclick="resetBg2Transform()" style="flex:1;">↩️ Reset 2</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🔤 Nastavenie TEXTU (posun)</div>
+      <div class="row" style="margin-top:8px;">
+        <div style="flex:1;"><label style="font-size:12px;">Text X (mm)</label><input id="txX" type="number" value="0" step="1" oninput="setTextOffset()"></div>
+        <div style="flex:1;"><label style="font-size:12px;">Text Y (mm)</label><input id="txY" type="number" value="0" step="1" oninput="setTextOffset()"></div>
+      </div>
+      <div class="row" style="margin-top:8px;">
+        <button type="button" class="btn-secondary" onclick="resetTextTransform()" style="flex:1;">↩️ Reset text</button>
+      </div>
+    </div>
+
+    <div class="card admin-card">
+      <h3>📦 Správa MASTER dát</h3>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+        <button type="button" class="btn-admin" style="width:100%;" onclick="downloadMasterDG()">📥 Uložiť MASTER Diagnózy</button>
+        <button type="button" class="btn-secondary" style="width:100%;" onclick="document.getElementById('importMasterInput').click()">📂 Načítať MASTER Diagnózy</button>
+        <input type="file" id="importMasterInput" accept="application/json" style="display:none" onchange="importMaster(this)">
+
+        <button type="button" class="btn-admin" style="width:100%;" onclick="downloadMasterReal()">📥 Uložiť MASTER Realizácie</button>
+        <button type="button" class="btn-secondary" style="width:100%;" onclick="document.getElementById('importRealInput').click()">📂 Načítať MASTER Realizácie</button>
+        <input type="file" id="importRealInput" accept="application/json" style="display:none" onchange="importRealizacie(this)">
+      </div>
+    </div>
+
+    <div class="card formik-card-settings">
+      <div class="section-title formik-title">🧾 Formik – tlačivá</div>
+      
+      <label>Možnosti editora</label>
+      <div class="row" style="margin-top:8px;">
+        <button type="button" onclick="openFormik()" style="flex:1.5; font-size:16px; padding:14px; background:#1f4fd8;">📄 Otvoriť Formik</button>
+        <button type="button" class="btn-secondary" onclick="formikNew()" style="flex:1; background:#00838f;">✨ Nový čistý</button>
+      </div>
+
+      <div class="row" style="margin-top:8px;">
+        <button type="button" class="btn-secondary" onclick="document.getElementById('formikBgInput').click()" style="flex:1;">🖼️ Zmeniť pozadie</button>
+        <input type="file" id="formikBgInput" accept="image/*" style="display:none" onchange="formikChangeBg(this)">
+        
+        <button type="button" class="btn-secondary" onclick="formikClearValues()" style="flex:1;">🧹 Vymazať len texty</button>
+      </div>
+
+      <hr style="border-top:1px solid #c7d2fe; margin: 12px 0;">
+
+      <label>Súborové operácie (Uloží aj pozadie)</label>
+      <div class="row" style="margin-top:8px;">
+        <button type="button" class="btn-save" onclick="formikSaveAs()" style="flex:1;">💾 Uložiť ako súbor</button>
+        <button type="button" class="btn-secondary" onclick="formikLoadFromFile()" style="flex:1;">📂 Načítať zo súboru</button>
+        <input type="file" id="formikLoadInput" accept="application/json" style="display:none" onchange="formikHandleLoad(this)">
+      </div>
+      
+      <div class="row" style="margin-top:8px;">
+        <button type="button" class="btn-secondary" onclick="closeFormik()" style="flex:1; background:#6c757d;">Zavrieť editor</button>
+      </div>
+    </div>
+
+</div>
+
+<button type="button" onclick="printSelected()" style="width:100%; font-size: 20px; padding: 20px; background: #d32f2f; margin-top: 20px; font-weight: bold; color:white;">🖨️ Vypočítať zlom a Tlačiť</button>
+
+<div class="card" id="formikCard" style="display:none">
+  <div class="section-title" style="margin-top:0;">🧾 Formik – náhľad</div>
+  <iframe id="formikFrame" style="width:100%; height:80vh; border:1px solid #d9e0e8; border-radius:12px; background:#fff;"></iframe>
+</div>
+
+<hr style="margin:40px 0">
+</div> <div id="printArea">
+    <div id="page1">
+        <div class="print-bg-container"><img id="printBgImg" alt=""></div>
+        <div id="textLayer1">
+            <div class="pos-header" id="ph_header"></div>
+            <div class="pos-left" id="ph_left"></div>
+            <div class="pos-col-right-1" id="col1"></div>
+            <div class="pos-free" id="ph_free"></div>
+        </div>
+    </div>
+    <div id="page2">
+        <div class="print-bg-container"><img id="printBgImg2" alt=""></div>
+        <div id="textLayer2"><div class="pos-col-right-2" id="col2"></div></div>
+    </div>
+</div>
+
+<script>
+/* =================================
+   BEZPEČNOSŤ (HESLO)
+   ================================= */
+const ACCESS_CODE = "4217"; // <--- ZMENIŤ HESLO TU
+
+function checkPass(){
+    const input = document.getElementById('passInput');
+    const err = document.getElementById('login-error');
+    if(input.value === ACCESS_CODE){
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+    } else {
+        err.style.display = 'block';
+        input.value = '';
+        input.focus();
+    }
+}
+function handleEnter(e){ if(e.key === 'Enter') checkPass(); }
+
+/* =================================
+   OCR / TESSERACT LOGIKA
+   ================================= */
+function openCamera(){ document.getElementById("cameraInput").click(); }
+function openImageFile(){ document.getElementById("fileImageInput").click(); }
+
+function runOCR(input) {
+  const file = input.files[0];
+  if(!file) return;
+
+  const progressBar = document.getElementById("ocrBar");
+  const progressContainer = document.getElementById("ocrProgress");
+  const status = document.getElementById("ocrStatus");
+  const txtArea = document.getElementById("ocr_raw");
+
+  progressContainer.style.display = "block";
+  status.style.display = "block";
+  status.textContent = "Načítavam OCR engine...";
+  progressBar.style.width = "0%";
+  txtArea.value = "Spracovávam obrázok, prosím čakajte...";
+
+  Tesseract.recognize(
+    file,
+    'slk', 
+    {
+      logger: m => {
+        if(m.status === 'recognizing text'){
+          progressBar.style.width = (m.progress * 100) + '%';
+          status.textContent = `Rozpoznávam text: ${Math.round(m.progress * 100)}%`;
+        } else {
+          status.textContent = m.status;
+        }
+      }
+    }
+  ).then(({ data: { text } }) => {
+    status.textContent = "Hotovo ✅";
+    setTimeout(() => {
+        progressContainer.style.display = "none";
+        status.style.display = "none";
+    }, 2000);
+    
+    txtArea.value = text;
+    OCR_parse(); 
+    alert("Text bol rozpoznaný a údaje doplnené (skontrolujte polia).");
+  }).catch(err => {
+    console.error(err);
+    status.textContent = "Chyba: " + err.message;
+    alert("Nepodarilo sa rozpoznať text. Skúste kvalitnejšiu fotku.");
+  });
+  input.value = "";
+}
+
+function OCR_parse(){
+  const t = document.getElementById("ocr_raw").value;
+  if(!t) return;
+  const mp = t.match(/([A-ZÁČĎÉÍĽŇÓŠŤÚÝŽ][a-záčďéíľňóšťúýž]+)\s+([A-ZÁČĎÉÍĽŇÓŠŤÚÝŽ][a-záčďéíľňóšťúýž]+)/);
+  if(mp && !document.getElementById("pac_meno").value){
+    document.getElementById("pac_meno").value = mp[1];
+    document.getElementById("pac_priezvisko").value = mp[2];
+  }
+  const rc = t.match(/\b\d{6}\/?\d{3,4}\b/);
+  if(rc){
+    document.getElementById("pac_rc").value = rc[0];
+  }
+
+  // ============================================
+  // LOGIKA PRE POISŤOVŇU (25, 24, 27)
+  // ============================================
+  let pCode = "";
+  
+  // 1. Prefixy: P:25, ZP 25, Kód 25
+  const prefixMatch = t.match(/(?:Poisťovňa|Pois|ZP|Kód|P|Poist|Union|Dôvera|Dovera)\s*[:.\-]?\s*(25|24|27)\b/i);
+
+  if (prefixMatch) {
+      pCode = prefixMatch[1];
+  } else {
+      // 2. Názvy (Fallback)
+      if (/všzp|vseobecna/i.test(t)) pCode = "25";
+      else if (/dovera/i.test(t)) pCode = "24";
+      else if (/union/i.test(t)) pCode = "27";
+      
+      // 3. Izolované číslo (ak nie je dátum)
+      if (!pCode) {
+          const rawMatch = t.match(/\b(25|24|27)\b(?!\.)/); 
+          if (rawMatch) pCode = rawMatch[1];
+      }
+  }
+  
+  if (pCode) document.getElementById("pac_pois").value = pCode;
+  // ============================================
+  
+  const dg = t.match(/\b([A-Z][0-9]{2}(\.[0-9A-Z]{1,2})?)\b/);
+  if(dg){
+    const foundDg = dg[1];
+    document.getElementById("pac_icd").value = foundDg;
+    if(foundDg.startsWith("I21")) document.getElementById("lekarska").value = "IM";
+    else if(foundDg.startsWith("I20")) document.getElementById("lekarska").value = "AP";
+    else if(foundDg.startsWith("J96") || foundDg.startsWith("J81")) document.getElementById("lekarska").value = "EDEM";
+    else if(foundDg.startsWith("A41")) document.getElementById("lekarska").value = "SEPSA";
+    loadDiagnostiky();
+  }
+
+  let noteText = "";
+  const zaverMatch = t.match(/(?:Záver|ZÁVER|Epikríza|EPIKRÍZA)[:\s]+([\s\S]{10,500})/i);
+  if(zaverMatch && zaverMatch[1]){
+      let extracted = zaverMatch[1].trim();
+      const stopWords = ["Dátum", "MUDr", "Primár", "Doporučenie"];
+      stopWords.forEach(word => {
+          const idx = extracted.indexOf(word);
+          if(idx > 0) extracted = extracted.substring(0, idx);
+      });
+      noteText = extracted;
+  }
+  if(noteText){
+      const poz = document.getElementById("poznamka");
+      if(!poz.value.includes(noteText)){
+          poz.value += (poz.value ? "\n\n" : "") + "Z prepúšťacej správy:\n" + noteText;
+      }
+  }
+}
+
+// --- JS Logic ---
+function toggleSettings() {
+    const panel = document.getElementById("settingsPanel");
+    const btn = document.getElementById("settingsBtn");
+    if (panel.style.display === "none") {
+        panel.style.display = "block";
+        btn.innerHTML = "⚙️ Zavrieť nastavenia";
+        btn.classList.add("btn-secondary"); 
+        setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    } else {
+        panel.style.display = "none";
+        btn.innerHTML = "⚙️ Rozšírené nastavenia, Tlač, Formik & Master";
+        btn.classList.remove("btn-secondary");
+    }
+}
+function normalizeCode(code) { return code ? code.replace(/\s/g, '') : ''; }
+
+const LEKARSKE_MAPOVANIE={
+ IM:["B110","A110","D120","P111","K117","S100","E100","T103"],
+ AP:["B110","A110","P111","E100"],
+ NAP:["B110","A110","D120","P111","K117"],
+ EDEM:["D120","D124","P112","K118","S103","T102"],
+ PE:["D120","D124","A110","P112","K117"],
+ DVT:["A113","K118","K117"],
+ ARYTMIA:["A110","P111","T103"],
+ SEPSA:["I120","T112","A117","P103","K117","V100","T100"],
+ HT:["A110","P111","E100"],
+ HYPO:["T100","A110","P112"]
+};
+
+let MASTER_DIAGNOZY = [
+{"kod":"A 100","nazov":"Narušená adaptácia jednotlivca","ciel_kratky":"Znížiť psychické napätie a podporiť orientáciu pacienta.","intervencie":"Poskytovať pravdivé a zrozumiteľné informácie o stave a postupoch, aktívne počúvať pacienta, podporovať vyjadrenie obáv a emócií, zabezpečiť pokojné a bezpečné prostredie, zapojiť rodinu podľa možností, sledovať reakcie pacienta na záťaž a zmeny.","hodnotenie":"Pacient pokojnejší, orientovaný, spolupracuje. Adaptácia primeraná aktuálnemu stavu."},
+{"kod":"A 110","nazov":"Intolerancia aktivity","ciel_kratky":"Znížiť únavu pri fyzickej aktivite.","intervencie":"Sledovať reakciu pacienta na záťaž, plánovať aktivitu s dostatočným odpočinkom, asistovať pri pohybe, monitorovať vitálne funkcie počas aktivity.","hodnotenie":"Pacient toleruje aktivitu bez výraznej únavy."},
+{"kod":"A 113","nazov":"Imobilita","ciel_kratky":"Predchádzať komplikáciám imobility.","intervencie":"Polohovať pacienta, vykonávať pasívne pohyby, zabezpečiť prevenciu dekubitov, podporovať sebestačnosť.","hodnotenie":"Bez komplikácií imobility."},
+{"kod":"B 110","nazov":"Akútna bolesť","ciel_kratky":"Znížiť intenzitu bolesti.","intervencie":"Hodnotiť bolesť pomocou škály, sledovať účinok liečby podľa ordinácie, zabezpečiť úľavové polohy.","hodnotenie":"Bolesť znížená na prijateľnú úroveň."},
+{"kod":"D 120","nazov":"Neúčinné dýchanie","ciel_kratky":"Zlepšiť ventiláciu a dychový komfort.","intervencie":"Monitorovať dychovú frekvenciu, SpO₂ a dychový vzor, polohovať pacienta do úľavovej polohy, zabezpečiť priechodnosť dýchacích ciest, spolupracovať pri oxygenoterapii podľa ordinácie.","hodnotenie":"Dych stabilizovaný, bez dychovej tiesne."},
+{"kod":"E 100","nazov":"Nedostatok informácií","ciel_kratky":"Zlepšiť informovanosť pacienta.","intervencie":"Poskytovať informácie primerané zdravotnému stavu a chápaniu pacienta, overovať porozumenie, odpovedať na otázky.","hodnotenie":"Pacient informáciám rozumie."},
+{"kod":"I 120","nazov":"Infekcia","ciel_kratky":"Zabrániť šíreniu infekcie.","intervencie":"Sledovať klinické príznaky infekcie, dodržiavať hygienické opatrenia, zabezpečiť izoláciu podľa potreby.","hodnotenie":"Príznaky infekcie ustupujú."},
+{"kod":"K 117","nazov":"Riziko krvácania","ciel_kratky":"Predísť vzniku krvácania.","intervencie":"Sledovať kožu a sliznice, kontrolovať invazívne vstupy, dohliadať na bezpečnosť pacienta.","hodnotenie":"Krvácanie sa nevyskytlo."},
+{"kod":"P 111","nazov":"Strach","ciel_kratky":"Znížiť strach pacienta.","intervencie":"Poskytovať informácie, podporovať pocit bezpečia, komunikovať pokojne.","hodnotenie":"Strach zmiernený."},
+{"kod":"S 100","nazov":"Nedostatočná sebaopatera v osobnej hygiene","ciel_kratky":"Zlepšiť schopnosť osobnej hygieny.","intervencie":"Asistovať pri osobnej hygiene podľa potreby, podporovať samostatnosť.","hodnotenie":"Pacient zvláda osobnú hygienu s primeranou pomocou."},
+{"kod":"T 103","nazov":"Riziko zvýšeného objemu telesných tekutín","ciel_kratky":"Predísť retencii tekutín.","intervencie":"Sledovať bilanciu tekutín, klinické príznaky preťaženia.","hodnotenie":"Riziko sa neprejavilo."}
+];
+let MASTER_REALIZACIE = [
+  { "realizacia": "Meranie krvného tlaku (TK)", "vstupy": [ { "nazov": "Čas merania", "jednotka": "h:m" }, { "nazov": "Systolický tlak", "jednotka": "mmHg" }, { "nazov": "Diastolický tlak", "jednotka": "mmHg" } ] },
+  { "realizacia": "Meranie saturácie (SpO2)", "vstupy": [ { "nazov": "Čas merania", "jednotka": "h:m" }, { "nazov": "%", "jednotka": "" } ] },
+  { "realizacia": "Hygienická starostlivosť - celkový kúpeľ" },
+  { "realizacia": "Psychická podpora pacienta" }
+];
+
+const NURSE_KEY="KJ_NURSES";
+let nurses=JSON.parse(localStorage.getItem(NURSE_KEY)||'["Sestra A","Sestra B"]');
+function refreshNurses(){
+ const s = document.getElementById("sestra");if(!s)return;
+ s.innerHTML="<option></option>";
+ nurses.forEach(n=>{const o=document.createElement("option");o.textContent=n;o.value=n;s.appendChild(o)});
+}
+function addNurse(){
+ const inp = document.getElementById("newNurse");
+ const n=inp.value.trim();if(!n)return;
+ if(!nurses.includes(n))nurses.push(n);
+ localStorage.setItem(NURSE_KEY,JSON.stringify(nurses));
+ inp.value="";refreshNurses();
+}
+function removeNurse(){
+ const s = document.getElementById("sestra");const n=s.value;if(!n)return;
+ nurses=nurses.filter(x=>x!==n);localStorage.setItem(NURSE_KEY,JSON.stringify(nurses));refreshNurses();
+}
+
+let ACTIVE=[];
+function initManualSelect() {
+    const sel = document.getElementById("manualDgSelect");if(!sel)return;
+    sel.innerHTML = `<option value="">-- Vyberte --</option>` +
+    MASTER_DIAGNOZY.map(d => `<option value="${d.kod}">${d.kod} – ${d.nazov}</option>`).join("");
+}
+function loadDiagnostiky(){
+ ACTIVE=[];
+ const key = document.getElementById("lekarska").value;
+ if(key && LEKARSKE_MAPOVANIE[key]){ LEKARSKE_MAPOVANIE[key].forEach(code => addDgToActive(code)); }
+ renderEditor();
+}
+function addDgToActive(code){
+    const cleanCode = normalizeCode(code);
+    const master = MASTER_DIAGNOZY.find(m => normalizeCode(m.kod) === cleanCode);
+    if(!master) return;
+    ACTIVE.push({
+        kod: master.kod, nazov: master.nazov, ciel: master.ciel_kratky || "", intervencie: master.intervencie || "", realizacia: "", hodnotenie: master.hodnotenie || "", print: false
+    });
+}
+function addManualDg(){
+    const val = document.getElementById("manualDgSelect").value;if(!val)return;addDgToActive(val);renderEditor();
+}
+function renderEditor(){
+    const container = document.getElementById("editor");if (!container) return;container.innerHTML = "";
+    ACTIVE.forEach((obj, index) => {
+        const realOpts = `<option value="">⚡ Rýchly výber...</option>` + 
+            MASTER_REALIZACIE.map((r, i) => `<option value="${i}">${r.realizacia || r}</option>`).join("");
+        const html = `
+        <div class="card" style="border-left: 5px solid ${obj.print ? 'var(--primary)' : '#ccc'}">
+            <div style="display:flex; justify-content:space-between;">
+                <label><input type="checkbox" ${obj.print ? 'checked' : ''} onchange="togglePrint(${index}, this)"> 🖨️ Tlačiť</label>
+                <button type="button" class="btn-delete" onclick="removeActiveDg(${index})">X</button>
+            </div>
+            <h3>${obj.kod} – ${obj.nazov}</h3>
+            <div class="row">
+                <div><label>Cieľ</label><textarea oninput="editActive(${index}, 'ciel', this.value)">${obj.ciel}</textarea></div>
+                <div><label>Intervencie</label><textarea oninput="editActive(${index}, 'intervencie', this.value)">${obj.intervencie}</textarea></div>
+            </div>
+            <label>Realizácia</label>
+            <select onchange="appendRealizacia(${index}, this)">${realOpts}</select>
+            <textarea oninput="editActive(${index}, 'realizacia', this.value)">${obj.realizacia}</textarea>
+            <label>Hodnotenie</label>
+            <textarea oninput="editActive(${index}, 'hodnotenie', this.value)">${obj.hodnotenie}</textarea>
+        </div>`;
+        container.innerHTML += html;
+    });
+}
+function togglePrint(index, cb) { ACTIVE[index].print = cb.checked; renderEditor(); } 
+function removeActiveDg(index) { ACTIVE.splice(index, 1); renderEditor(); }
+function editActive(index, field, val) { ACTIVE[index][field] = val; }
+function appendRealizacia(index, sel) {
+    if (sel.value === "") return;
+    const item = MASTER_REALIZACIE[sel.value];
+    let textToInsert = (typeof item === "object") ? item.realizacia : item;
+    const current = ACTIVE[index].realizacia;
+    ACTIVE[index].realizacia = current + (current ? ", " : "") + textToInsert;
+    sel.value = ""; renderEditor(); 
+}
+
+function saveSession(){
+    const session = { date: new Date().toISOString(), active: ACTIVE };
+    const blob = new Blob([JSON.stringify(session, null, 2)], {type : 'application/json'});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "zaloha.json"; a.click();
+}
+function loadSession(input){
+    const file = input.files[0];if(!file)return;
+    const fr = new FileReader();fr.onload = (e) => { ACTIVE = JSON.parse(e.target.result).active; renderEditor(); };fr.readAsText(file);
+}
+
+const NOTES_KEY="KJ_PREDEF_NOTES";
+let PREDEF_NOTES=JSON.parse(localStorage.getItem(NOTES_KEY)||"{}");
+function refreshMainNotes(){
+ const sel = document.getElementById("noteSelect");if(!sel)return;
+ sel.innerHTML="<option value=''>— vyber —</option>";
+ Object.keys(PREDEF_NOTES).sort().forEach(k=>{const o=document.createElement("option");o.value=k;o.textContent=k;sel.appendChild(o)});
+}
+function applyNoteMain(){
+ const sel = document.getElementById("noteSelect");const poz = document.getElementById("poznamka");
+ if(sel.value&&PREDEF_NOTES[sel.value]){ poz.value+=(poz.value?"\n":"")+PREDEF_NOTES[sel.value]}
+}
+function addNoteMain(){
+ const k=document.getElementById("newNoteKey").value;const v=document.getElementById("newNoteText").value;
+ if(k&&v){ PREDEF_NOTES[k]=v; localStorage.setItem(NOTES_KEY,JSON.stringify(PREDEF_NOTES)); refreshMainNotes(); }
+}
+function removeNoteMain(){
+    const sel = document.getElementById("noteSelect");if(!sel.value)return;
+    delete PREDEF_NOTES[sel.value];localStorage.setItem(NOTES_KEY,JSON.stringify(PREDEF_NOTES)); refreshMainNotes();
+}
+
+const FREE_NOTES_KEY="KJ_FREE_PREDEF_NOTES";
+let FREE_NOTES=JSON.parse(localStorage.getItem(FREE_NOTES_KEY)||"{}");
+function refreshFreeNotes(){
+ const sel = document.getElementById("freeNoteSelect");if(!sel)return;
+ sel.innerHTML="<option value=''>— vyber —</option>";
+ Object.keys(FREE_NOTES).sort().forEach(k=>{const o=document.createElement("option");o.value=k;o.textContent=k;sel.appendChild(o)});
+}
+function applyNoteFree(){
+ const sel = document.getElementById("freeNoteSelect");const t = document.getElementById("freeText");
+ if(sel.value&&FREE_NOTES[sel.value]){ t.value+=(t.value?"\n":"")+FREE_NOTES[sel.value]}
+}
+function addNoteFree(){
+ const k=document.getElementById("newFreeNoteKey").value;const v=document.getElementById("newFreeNoteText").value;
+ if(k&&v){ FREE_NOTES[k]=v; localStorage.setItem(FREE_NOTES_KEY,JSON.stringify(FREE_NOTES)); refreshFreeNotes(); }
+}
+function removeNoteFree(){
+    const sel = document.getElementById("freeNoteSelect");if(!sel.value)return;
+    delete FREE_NOTES[sel.value];localStorage.setItem(FREE_NOTES_KEY,JSON.stringify(FREE_NOTES)); refreshFreeNotes();
+}
+
+// TLAČ
+function printSelected(){
+ const sel = ACTIVE.filter(o => o.print);
+ if(!sel.length){ alert("Vyberte aspoň jednu diagnózu"); return; }
+ 
+ // >>>>>> GITHUB ÚPRAVA ZAČIATOK <<<<<<
+ // 1. Riešenie vypínača podkladu
+ const useBg = document.getElementById("use_bg_print");
+ if(useBg && !useBg.checked) {
+     document.body.classList.add("no-bg-print");
+ } else {
+     document.body.classList.remove("no-bg-print");
+ }
+
+ // 2. Riešenie výberu obrázka (Typ A / B)
+ const bgSelect = document.getElementById("github_bg_select");
+ if(bgSelect) {
+     const selectedImg = bgSelect.value;
+     // Nastavíme cestu pre 1. stranu z dropdownu
+     document.getElementById("printBgImg").src = selectedImg;
+     // Nastavíme cestu pre 2. stranu natvrdo
+     document.getElementById("printBgImg2").src = "podklad_strana2.jpg";
+ }
+ // >>>>>> GITHUB ÚPRAVA KONIEC <<<<<<
+ 
+ document.getElementById("ph_header").innerHTML = 
+    document.getElementById("pac_priezvisko").value + " " + document.getElementById("pac_meno").value + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + 
+    document.getElementById("pac_rc").value + "&nbsp;&nbsp;&nbsp;&nbsp;" + 
+    document.getElementById("pac_pois").value + "&nbsp;&nbsp;&nbsp;&nbsp;" + 
+    document.getElementById("pac_icd").value;
+    
+ document.getElementById("ph_left").textContent = sel[0].kod + " – " + sel[0].nazov;
+ document.getElementById("ph_free").innerHTML = (document.getElementById("freePrint").checked && document.getElementById("freeText").value.trim()) ? document.getElementById("freeText").value.replace(/\n/g,"<br>") : "";
+
+ const allElements = [];
+ sel.forEach((d, i) => {
+    const div = document.createElement("div"); div.className = "dg-item"; let html = "";
+    
+    // Pripraviť text realizácie (ak existuje)
+    const realText = d.realizacia ? `<b>Realizácia:</b> ${d.realizacia.replace(/\n/g,"<br>")}<br>` : "";
+    
+    if (i === 0) { 
+        html += `<b>Cieľ:</b> ${d.ciel}<br><b>Intervencie:</b> ${d.intervencie.replace(/\n/g,"<br>")}<br>${realText}${d.hodnotenie?`<b>Hodnotenie:</b> ${d.hodnotenie}`:''}`; 
+    } 
+    else { 
+        html += `<b>${d.kod} – ${d.nazov}</b><br><b>Cieľ:</b> ${d.ciel}<br><b>Intervencie:</b> ${d.intervencie.replace(/\n/g,"<br>")}<br>${realText}${d.hodnotenie?`<b>Hodnotenie:</b> ${d.hodnotenie}`:''}`; 
+    }
+    div.innerHTML = html; allElements.push(div);
+ });
+
+ const mandatory = document.createElement("div"); mandatory.className = "footer-item"; mandatory.innerHTML = "Všetky výkony zaznamenané v dekurze boli zrealizované.<br>Terapia podávaná podľa ordinácie lekára."; allElements.push(mandatory);
+ const noteVal = document.getElementById("poznamka").value;
+ if(noteVal) { const noteDiv = document.createElement("div"); noteDiv.className = "footer-item"; noteDiv.innerHTML = `<b>Poznámka:</b> ${noteVal.replace(/\n/g,"<br>")}`; allElements.push(noteDiv); }
+ const nurseDiv = document.createElement("div"); nurseDiv.className = "footer-item"; nurseDiv.innerHTML = `<b>Sestra:</b> ${document.getElementById("sestra").value}`; allElements.push(nurseDiv);
+
+ const col1 = document.getElementById("col1"); const col2 = document.getElementById("col2"); col1.innerHTML = ""; col2.innerHTML = "";
+ const printArea = document.getElementById("printArea"); printArea.style.display = "block";
+ 
+ const MAX_HEIGHT = 580; 
+ let currentH = 0; let movingToPage2 = false;
+ 
+ allElements.forEach(el => {
+    if(movingToPage2) { col2.appendChild(el); } else {
+        col1.appendChild(el); const h = el.offsetHeight;
+        if ((currentH + h) > MAX_HEIGHT) { col1.removeChild(el); col2.appendChild(el); movingToPage2 = true; } else { currentH += h; }
+    }
+ });
+ window.print();
+}
+
+function downloadMasterDG() { saveJSON(MASTER_DIAGNOZY, "dg.json"); }
+function downloadMasterReal() { saveJSON(MASTER_REALIZACIE, "real.json"); }
+function saveJSON(data, f) {
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = f; a.click();
+}
+document.addEventListener("DOMContentLoaded", function() {
+    try{ loadMasterFromStorage(); }catch(e){} refreshNurses(); refreshMainNotes(); refreshFreeNotes(); initManualSelect();
+    const saved = localStorage.getItem(_bgKey()); const img = document.getElementById("printBgImg"); if(saved && img) img.src = saved; applyBgTransform();
+    const saved2 = localStorage.getItem(_bg2Key()); const img2 = document.getElementById("printBgImg2"); if(saved2 && img2) img2.src = saved2; applyBg2Transform();
+    applyTextTransform();
+});
+document.getElementById("ocr_raw").addEventListener("input", function () { if (this.value.trim().length > 20) { OCR_parse(); } });
+
+/* =========================================
+   FORMIK - VYLEPŠENÁ LOGIKA 
+   (Nový, Zmena pozadia, Save/Load s obrázkom)
+   ========================================= */
+
+function _b64ToUtf8(b64){
+  const bin = atob(b64);
+  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+const FORMIK_TEMPLATES = {
+  "default": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9InNrIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPHRpdGxlPkE0IEpJUyBlZGl0b3Ig4oCTIGZpbsOhbDwvdGl0bGU+Cgo8c3R5bGU+CkBwYWdlewogIHNpemU6QTQ7CiAgbWFyZ2luOjA7Cn0KCmh0bWwsYm9keXsKICB3aWR0aDoxMDAlOwogIGhlaWdodDoxMDAlOwp9Cgpib2R5ewogIG1hcmdpbjowOwogIGRpc3BsYXk6ZmxleDsKICBmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmOwogIGJhY2tncm91bmQ6I2JiYjsKfQoKLyogUEFORUwgKi8KI3BhbmVsewogIHdpZHRoOjIyMHB4OwogIGJhY2tncm91bmQ6IzIyMjsKICBjb2xvcjojZmZmOwogIHBhZGRpbmc6MTBweDsKfQojcGFuZWwgYnV0dG9uewogIHdpZHRoOjEwMCU7CiAgbWFyZ2luLWJvdHRvbTo2cHg7Cn0KCi8qIE1BTlXDgUwgKi8KI21hbnVhbHsKICBtYXJnaW4tdG9wOjEwcHg7CiAgZm9udC1zaXplOjExcHg7CiAgYm9yZGVyLXRvcDoxcHggc29saWQgIzQ0NDsKICBwYWRkaW5nLXRvcDo4cHg7Cn0KCi8qIFBMw4FUTk8gKi8KI2NhbnZhc3sKICBmbGV4OjE7CiAgZGlzcGxheTpmbGV4OwogIGp1c3RpZnktY29udGVudDpjZW50ZXI7CiAgcGFkZGluZzowOwp9CgovKiBBNCAqLwojYTR7CiAgcG9zaXRpb246cmVsYXRpdmU7CiAgd2lkdGg6MjEwbW07CiAgaGVpZ2h0OjI5N21tOwogIGJhY2tncm91bmQ6I2ZmZjsKfQoKLyogUE9ES0xBRCAqLwoucHJpbnQtYmd7CiAgcG9zaXRpb246YWJzb2x1dGU7CiAgaW5zZXQ6MDsKICB3aWR0aDoxMDAlOwogIGhlaWdodDoxMDAlOwogIG9iamVjdC1maXQ6Y29udGFpbjsKICB6LWluZGV4OjA7CiAgcG9pbnRlci1ldmVudHM6bm9uZTsKfQoKLyogQkxPSyAqLwouYmxvY2t7CiAgcG9zaXRpb246YWJzb2x1dGU7CiAgZm9udC1zaXplOjEycHg7CiAgYm94LXNpemluZzpib3JkZXItYm94OwogIHotaW5kZXg6MTA7Cn0KLnNlbGVjdGVkeyBvdXRsaW5lOjFweCBkYXNoZWQgYmx1ZTsgfQoKLyogVk7DmlRPUk7DiSBQUlZLWSAqLwouYmxvY2staW5wdXR7CiAgd2lkdGg6MTAwJTsKICBoZWlnaHQ6MTAwJTsKICBib3JkZXI6bm9uZTsKICBiYWNrZ3JvdW5kOnRyYW5zcGFyZW50OwogIGJveC1zaXppbmc6Ym9yZGVyLWJveDsKICBwYWRkaW5nOjA7CiAgbWFyZ2luOjA7Cn0KCi8qIFRFWFQgKi8KLnRleHR7CiAgd2hpdGUtc3BhY2U6bm93cmFwOwogIG92ZXJmbG93OmhpZGRlbjsKfQoKLyogVEVYVEFSRUEgKi8KdGV4dGFyZWEuYmxvY2staW5wdXR7CiAgcmVzaXplOm5vbmU7CiAgbGluZS1oZWlnaHQ6MTRweDsKfQoKLyogPT09PT0gQ0hFQ0tCT1gg4oCTIExFTiBGQUpLQSA9PT09PSAqLwouY2hlY2tib3h7CiAgZGlzcGxheTpmbGV4OwogIGFsaWduLWl0ZW1zOmNlbnRlcjsKICBqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyOwp9Ci5jaGVja2JveCBpbnB1dFt0eXBlPSJjaGVja2JveCJdewogIGFwcGVhcmFuY2U6bm9uZTsKICAtd2Via2l0LWFwcGVhcmFuY2U6bm9uZTsKICB3aWR0aDoxNHB4OwogIGhlaWdodDoxNHB4OwogIGJhY2tncm91bmQ6dHJhbnNwYXJlbnQ7CiAgYm9yZGVyOm5vbmU7CiAgb3V0bGluZTpub25lOwogIGJveC1zaGFkb3c6bm9uZTsKICBtYXJnaW46MDsKICBwYWRkaW5nOjA7CiAgcG9zaXRpb246cmVsYXRpdmU7CiAgY3Vyc29yOnBvaW50ZXI7Cn0KLmNoZWNrYm94IGlucHV0W3R5cGU9ImNoZWNrYm94Il06Y2hlY2tlZDo6YWZ0ZXJ7CiAgY29udGVudDoi4pyTIjsKICBwb3NpdGlvbjphYnNvbHV0ZTsKICBsZWZ0OjA7CiAgdG9wOi00cHg7CiAgZm9udC1zaXplOjE2cHg7CiAgZm9udC13ZWlnaHQ6Ym9sZDsKICBjb2xvcjojMDAwOwogIGxpbmUtaGVpZ2h0OjE7Cn0KCi8qID09PT09IERBVEUg4oCTIMOaUExORSBUUkFOU1BBUkVOVE7DnSA9PT09PSAqLwppbnB1dFt0eXBlPSJkYXRlIl0uYmxvY2staW5wdXR7CiAgYm9yZGVyOm5vbmU7CiAgYmFja2dyb3VuZDp0cmFuc3BhcmVudDsKICAtd2Via2l0LWFwcGVhcmFuY2U6bm9uZTsKICBhcHBlYXJhbmNlOm5vbmU7CiAgbGluZS1oZWlnaHQ6MThweDsKICBmb250LXNpemU6MTJweDsKfQppbnB1dFt0eXBlPSJkYXRlIl0uYmxvY2staW5wdXQ6Zm9jdXN7CiAgb3V0bGluZTpub25lOwp9CgovKiBza3J5dGllIGlrb25reSBrYWxlbmTDoXJhICovCmlucHV0W3R5cGU9ImRhdGUiXTo6LXdlYmtpdC1jYWxlbmRhci1waWNrZXItaW5kaWNhdG9yewogIG9wYWNpdHk6MDsKICBiYWNrZ3JvdW5kOnRyYW5zcGFyZW50OwogIGNvbG9yOnRyYW5zcGFyZW50OwogIGN1cnNvcjpwb2ludGVyOwp9CmlucHV0W3R5cGU9ImRhdGUiXTo6LXdlYmtpdC1pbm5lci1zcGluLWJ1dHRvbiwKaW5wdXRbdHlwZT0iZGF0ZSJdOjotd2Via2l0LWNsZWFyLWJ1dHRvbnsKICBkaXNwbGF5Om5vbmU7Cn0KCi8qIFJFU0laRVIgKi8KLnJlc2l6ZXJ7CiAgd2lkdGg6OHB4OwogIGhlaWdodDo4cHg7CiAgcG9zaXRpb246YWJzb2x1dGU7CiAgcmlnaHQ6LTRweDsKICBib3R0b206LTRweDsKICBiYWNrZ3JvdW5kOiMzYzY7CiAgY3Vyc29yOm53c2UtcmVzaXplOwogIHotaW5kZXg6MjA7Cn0KCi8qIEVESVQgdnMgVklFVyAqLwouZWRpdCAuYmxvY2staW5wdXR7IHBvaW50ZXItZXZlbnRzOm5vbmU7IH0KLnZpZXcgLmJsb2NrLWlucHV0eyBwb2ludGVyLWV2ZW50czphdXRvOyB9CgovKiBQUklOVCAqLwpAbWVkaWEgcHJpbnR7CiAgI3BhbmVseyBkaXNwbGF5Om5vbmU7IH0KICAucmVzaXplcnsgZGlzcGxheTpub25lICFpbXBvcnRhbnQ7IH0KICBib2R5eyBiYWNrZ3JvdW5kOiNmZmY7IH0KCiAgaW5wdXRbdHlwZT0iZGF0ZSJdOjotd2Via2l0LWNhbGVuZGFyLXBpY2tlci1pbmRpY2F0b3J7CiAgICBkaXNwbGF5Om5vbmUgIWltcG9ydGFudDsKICB9Cn0KPC9zdHlsZT4KPC9oZWFkPgoKPGJvZHk+Cgo8ZGl2IGlkPSJwYW5lbCI+CiAgPGJ1dHRvbiBvbmNsaWNrPSJhZGRUZXh0KCkiPisgVGV4dDwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0iYWRkRGF0ZSgpIj4rIETDoXR1bTwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0iYWRkVGV4dGFyZWEoKSI+KyBUZXh0YXJlYTwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0iYWRkQ2hlY2tib3goKSI+KyBDaGVja2JveDwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0idG9nZ2xlTW9kZSgpIj5FRElUIC8gVklFVzwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0iY2xlYXJWYWx1ZXMoKSI+8J+nuSBWecSNaXN0acWlIGZvcm11bMOhcjwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0id2luZG93LnByaW50KCkiPvCflqjvuI8gUERGPC9idXR0b24+CgogIDxkaXYgaWQ9Im1hbnVhbCI+CiAgICA8Yj5NYW51w6FsOjwvYj48YnI+CiAgICDigKIga2xpayDihpIgdsO9YmVyPGJyPgogICAg4oCiIMWlYWhhaiDihpIgcHJlc3VuPGJyPgogICAg4oCiIHplbGVuw70gcm9oIOKGkiByZXNpemU8YnI+CiAgICDigKIgREVMIOKGkiB6bWF6YcWlPGJyPgogICAg4oCiIEVESVQgPSByb3ptaWVzdMWIb3ZhbmllPGJyPgogICAg4oCiIFZJRVcgPSBww61zYW5pZQogIDwvZGl2Pgo8L2Rpdj4KCjxkaXYgaWQ9ImNhbnZhcyI+CiAgPGRpdiBpZD0iYTQiIGNsYXNzPSJlZGl0Ij4KICAgIDxpbWcgc3JjPSJwb2RrbGFkLnBuZyIgY2xhc3M9InByaW50LWJnIj4KICA8L2Rpdj4KPC9kaXY+Cgo8c2NyaXB0Pgpjb25zdCBTVE9SQUdFX0tFWT0nQTRfSklTX0FVVE9TQVZFJzsKY29uc3QgcGFnZT1kb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnYTQnKTsKbGV0IG1vZGU9J2VkaXQnLCBhY3RpdmU9bnVsbCwgb3g9MCwgb3k9MCwgcmVzaXppbmc9ZmFsc2U7CgovKiBTRUxFQ1RJT04gKi8KZnVuY3Rpb24gY2xlYXJTZWxlY3Rpb24oKXsKICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuc2VsZWN0ZWQnKS5mb3JFYWNoKHg9PnguY2xhc3NMaXN0LnJlbW92ZSgnc2VsZWN0ZWQnKSk7CiAgaWYoZG9jdW1lbnQuYWN0aXZlRWxlbWVudCkgZG9jdW1lbnQuYWN0aXZlRWxlbWVudC5ibHVyKCk7Cn0KCi8qIEJMT0NLICovCmZ1bmN0aW9uIG1ha2VCbG9jayh3LGgpewogIGNvbnN0IGI9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgYi5jbGFzc05hbWU9J2Jsb2NrJzsKICBiLnN0eWxlLmxlZnQ9JzQwcHgnOwogIGIuc3R5bGUudG9wPSc0MHB4JzsKICBiLnN0eWxlLndpZHRoPXcrJ3B4JzsKICBiLnN0eWxlLmhlaWdodD1oKydweCc7CgogIGIub25tb3VzZWRvd249ZT0+ewogICAgaWYobW9kZSE9PSdlZGl0JykgcmV0dXJuOwogICAgYWN0aXZlPWI7IG94PWUub2Zmc2V0WDsgb3k9ZS5vZmZzZXRZOwogICAgY2xlYXJTZWxlY3Rpb24oKTsgYi5jbGFzc0xpc3QuYWRkKCdzZWxlY3RlZCcpOwogIH07CgogIGNvbnN0IHI9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgci5jbGFzc05hbWU9J3Jlc2l6ZXInOwogIHIub25tb3VzZWRvd249ZT0+eyByZXNpemluZz10cnVlOyBhY3RpdmU9YjsgZS5zdG9wUHJvcGFnYXRpb24oKTsgfTsKICBiLmFwcGVuZENoaWxkKHIpOwoKICBwYWdlLmFwcGVuZENoaWxkKGIpOwogIHJldHVybiBiOwp9CgovKiBBREQgKi8KZnVuY3Rpb24gYWRkVGV4dCgpewogIGNvbnN0IGI9bWFrZUJsb2NrKDE0MCwxOCk7CiAgY29uc3QgZD1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICBkLmNvbnRlbnRFZGl0YWJsZT10cnVlOwogIGQuY2xhc3NOYW1lPSdibG9jay1pbnB1dCB0ZXh0JzsKICBiLmFwcGVuZENoaWxkKGQpOwogIHNhdmVGb3JtKCk7IGNsZWFyU2VsZWN0aW9uKCk7Cn0KZnVuY3Rpb24gYWRkRGF0ZSgpewogIGNvbnN0IGI9bWFrZUJsb2NrKDE0MCwxOCk7CiAgY29uc3QgaT1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdpbnB1dCcpOwogIGkudHlwZT0nZGF0ZSc7IGkuY2xhc3NOYW1lPSdibG9jay1pbnB1dCc7CiAgYi5hcHBlbmRDaGlsZChpKTsKICBzYXZlRm9ybSgpOyBjbGVhclNlbGVjdGlvbigpOwp9CmZ1bmN0aW9uIGFkZFRleHRhcmVhKCl7CiAgY29uc3QgYj1tYWtlQmxvY2soMjIwLDEwMCk7CiAgY29uc3QgdD1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCd0ZXh0YXJlYScpOwogIHQuY2xhc3NOYW1lPSdibG9jay1pbnB1dCc7CiAgYi5hcHBlbmRDaGlsZCh0KTsKICBzYXZlRm9ybSgpOyBjbGVhclNlbGVjdGlvbigpOwp9CmZ1bmN0aW9uIGFkZENoZWNrYm94KCl7CiAgY29uc3QgYj1tYWtlQmxvY2soMjAsMjApOwogIGIuY2xhc3NMaXN0LmFkZCgnY2hlY2tib3gnKTsKICBjb25zdCBjPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2lucHV0Jyk7CiAgYy50eXBlPSdjaGVja2JveCc7IGMuY2xhc3NOYW1lPSdibG9jay1pbnB1dCc7CiAgYi5hcHBlbmRDaGlsZChjKTsKICBzYXZlRm9ybSgpOyBjbGVhclNlbGVjdGlvbigpOwp9CgovKiBNT1ZFIC8gUkVTSVpFICovCmRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNlbW92ZScsZT0+ewogIGlmKCFhY3RpdmV8fG1vZGUhPT0nZWRpdCcpIHJldHVybjsKICBjb25zdCByPXBhZ2UuZ2V0Qm91bmRpbmdDbGllbnRSZWN0KCk7CiAgaWYocmVzaXppbmcpewogICAgYWN0aXZlLnN0eWxlLndpZHRoPShlLmNsaWVudFgtci5sZWZ0LWFjdGl2ZS5vZmZzZXRUb3ApKydweCc7CiAgICBhY3RpdmUuc3R5bGUuaGVpZ2h0PShlLmNsaWVudFgtci50b3AtYWN0aXZlLm9mZnNldFRvcCkrJ3B4JzsKICB9ZWxzZSB7CiAgICBhY3RpdmUuc3R5bGUubGVmdD0oZS5jbGllbnRYLXIubGVmdC1veCkrJ3B4JzsKICAgIGFjdGl2ZS5zdHlsZS50b3A9KGUuY2xpZW50WS1yLnRvcC1veSkrJ3B4JzsKICB9Cn0pOwpkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdtb3VzZXVwJywoKT0+e2FjdGl2ZT1udWxsO3Jlc2l6aW5nPWZhbHNlO3NhdmVGb3JtKCk7fSk7CgovKiBERUxFVEUgKi8KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsZT0+ewogIGlmKGUua2V5PT09J0RlbGV0ZScmJmRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJy5zZWxlY3RlZCcpKXsKICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJy5zZWxlY3RlZCcpLnJlbW92ZSgpOwogICAgY2xlYXJTZWxlY3Rpb24oKTsgc2F2ZUZvcm0oKTsKICB9Cn0pOwoKLyogTU9ERSAqLwpmdW5jdGlvbiB0b2dnbGVNb2RlKCl7CiAgbW9kZSA9IG1vZGU9PT0nZWRpdCc/J3ZpZXcnOidlZGl0JzsKICBwYWdlLmNsYXNzTmFtZT1tb2RlOwogIGNsZWFyU2VsZWN0aW9uKCk7Cn0KCi8qIEFVVE9TQVZFICovCmZ1bmN0aW9uIHNhdmVGb3JtKCl7CiAgY29uc3QgZGF0YT1bXTsKICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcuYmxvY2snKS5mb3JFYWNoKGI9PnsKICAgIGNvbnN0IGY9Yi5xdWVyeVNlbGVjdG9yKCcuYmxvY2staW5wdXQnKTsKICAgIGlmKCFmKSByZXR1cm47CiAgICBkYXRhLnB1c2goewogICAgICB0YWc6Zi50YWdOYW1lLAogICAgICB0eXBlOmYudHlwZXx8JycsCiAgICAgIGxlZnQ6Yi5zdHlsZS5sZWZ0LAogICAgICB0b3A6Yi5zdHlsZS50b3AsCiAgICAgIHdpZHRoOmIuc3R5bGUud2lkdGgsCiAgICAgIGhlaWdodDpiLnN0eWxlLmhlaWdodCwKICAgICAgdmFsdWU6Zi52YWx1ZXx8Zi5pbm5lclRleHR8fCcnLAogICAgICBjaGVja2VkOmYuY2hlY2tlZHx8ZmFsc2UKICAgIH0pOwogIH0pOwogIGxvY2FsU3RvcmFnZS5zZXRJdGVtKFNUT1JBR0VfS0VZLEpTT04uc3RyaW5naWZ5KGRhdGEpKTsKfQoKZnVuY3Rpb24gbG9hZEZvcm0oKXsKICBjb25zdCByYXc9bG9jYWxTdG9yYWdlLmdldEl0ZW0oU1RPUkFHRV9LRVkpOwogIGlmKCFyYXcpIHJldHVybjsKICBKU09OLnBhcnNlKHJhdykuZm9yRWFjaChpPT57CiAgICBsZXQgYjsKICAgIGlmKGkudHlwZT09PSdkYXRlJyl7CiAgICAgIGI9bWFrZUJsb2NrKHBhcnNlSW50KGkud2lkdGgpLHBhcnNlSW50KGkuaGVpZ2h0KSk7CiAgICAgIGNvbnN0IGVsPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2lucHV0Jyk7CiAgICAgIGVsLnR5cGU9J2RhdGUnOyBlbC5jbGFzc05hbWU9J2Jsb2NrLWlucHV0JzsgZWwudmFsdWU9aS52YWx1ZTsKICAgICAgYi5hcHBlbmRDaGlsZChlbCk7CiAgICB9ZWxzZSBpZihpLnR5cGU9PT0nY2hlY2tib3gnKXsKICAgICAgYj1tYWtlQmxvY2socGFyc2VJbnQoaS53aWR0aCkscGFyc2VJbnQoaS5oZWlnaHQpKTsKICAgICAgYi5jbGFzc0xpc3QuYWRkKCdjaGVja2JveCcpOwogICAgICBjb25zdCBlbD1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdpbnB1dCcpOwogICAgICBlbC50eXBlPSdjaGVja2JveCc7IGVsLmNsYXNzTmFtZT0nYmxvY2staW5wdXQnOyBlbC5jaGVja2VkPWkuY2hlY2tlZDsKICAgICAgYi5hcHBlbmRDaGlsZChlbCk7CiAgICB9ZWxzZSBpZihpLnRhZz09PSdURVhUQVJFQScpewogICAgICBiPW1ha2VCbG9jayhwYXJzZUludChpLndpZHRoKSxwYXJzZUludChpLmhlaWdodCkpOwogICAgICBjb25zdCBlbD1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCd0ZXh0YXJlYScpOwogICAgICBlbC5jbGFzc05hbWU9J2Jsb2NrLWlucHV0JzsgZWwudmFsdWU9aS52YWx1ZTsKICAgICAgYi5hcHBlbmRDaGlsZChlbCk7CiAgICB9ZWxzZXsKICAgICAgYj1tYWtlQmxvY2socGFyc2VJbnQoaS53aWR0aCkscGFyc2VJbnQoaS5oZWlnaHQpKTsKICAgICAgY29uc3QgZWw9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgICAgIGVsLmNsYXNzTmFtZT0nYmxvY2staW5wdXQgdGV4dCc7IGVsLmNvbnRlbnRFZGl0YWJsZT10cnVlOwogICAgICBlbC5pbm5lclRleHR8fCcnOwogICAgICBiLmFwcGVuZENoaWxkKGVsKTsKICAgIH0KICAgIGIuc3R5bGUubGVmdD1pLmxlZnQ7CiAgICBiLnN0eWxlLnRvcD1pLnRvcDsKICB9KTsKICBjbGVhclNlbGVjdGlvbigpOwp9CgovKiBDTEVBUiBWQUxVRVMgKi8KZnVuY3Rpb24gY2xlYXJWYWx1ZXMoKXsKICBpZighY29uZmlybSgnVnnEjWlzdGnFpSBob2Rub3R5IGZvcm11bMOhcj8nKSkgcmV0dXJuOwogIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5ibG9jay1pbnB1dCcpLmZvckVhY2goZj0+ewogICAgaWYoZi50eXBlPT09J2NoZWNrYm94JykgZi5jaGVja2VkPWZhbHNlOwogICAgZWxzZSBpZihmLnRhZ05hbWU9PT0nRElWJykgZi5pbm5lclRleHQ9Jyc7CiAgICBlbHNlIGZWYWx1ZT0nJzsKICB9KTsKICBzYXZlRm9ybSgpOwp9Cgp3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcignbG9hZCcsbG9hZEZvcm0pOwo8L3NjcmlwdD4KCjwvYm9keT4KPC9odG1sPg=="
+};
+
+function openFormik(){
+  const card=document.getElementById('formikCard');
+  const fr=document.getElementById('formikFrame');
+  const tpl = FORMIK_TEMPLATES["default"];
+
+  card.style.display='block';
+  fr.srcdoc = _b64ToUtf8(tpl);
+
+  // >>>>> NOVÁ ČASŤ PRE GITHUB <<<<<
+  // Táto funkcia sa spustí hneď, ako sa Formik načíta
+  fr.onload = function() {
+      try {
+          const w = fr.contentWindow;
+          const doc = w.document;
+          
+          // Nájde alebo vytvorí element pre pozadie
+          let bg = doc.querySelector('.print-bg');
+          if(!bg){
+             const page = doc.getElementById('a4');
+             bg = doc.createElement('img');
+             bg.className = 'print-bg';
+             if(page) page.insertBefore(bg, page.firstChild);
+          }
+
+          // TU SA NASTAVUJE OBRÁZOK Z GITHUBU:
+          bg.src = 'formik_podklad.jpg'; 
+          bg.style.display = 'block';
+      } catch(e) {
+          console.log("Chyba pri načítaní pozadia Formik:", e);
+      }
+  };
+  // >>>>> KONIEC NOVÝCH RIADKOV <<<<<
+
+  setTimeout(()=>{ card.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
+}
+function closeFormik(){
+  const card=document.getElementById('formikCard');
+  const fr=document.getElementById('formikFrame');
+  fr.srcdoc='';
+  card.style.display='none';
+}
+
+function _formikWin(){
+  const fr=document.getElementById('formikFrame');
+  return fr && fr.contentWindow ? fr.contentWindow : null;
+}
+
+function formikClearValues(){
+  const w=_formikWin();
+  if(!w){ alert('Formik nie je otvorený.'); return; }
+  try {
+    const doc=w.document;
+    doc.querySelectorAll('.block-input').forEach(f=>{
+      if(f.type==='checkbox') f.checked=false;
+      else if(f.tagName==='DIV') f.innerText='';
+      else f.value='';
+    });
+  } catch(e) {
+    alert('Vyčistenie zlyhalo.');
+  }
+}
+
+// 1. NOVÝ FORMULÁR (Vyčistí všetko)
+function formikNew(){
+  const w = _formikWin();
+  if(!w){ alert('Najprv otvorte Formik tlačidlom "Otvoriť Formik".'); return; }
+  
+  if(!confirm("Naozaj chcete vytvoriť úplne nový formulár?\nPrídete o všetky polia aj aktuálne pozadie.")) return;
+
+  const doc = w.document;
+  // Vymazať bloky
+  Array.from(doc.querySelectorAll('.block')).forEach(x => x.remove());
+  // Resetovať pozadie na biele (odstrániť src obrázku)
+  const bg = doc.querySelector('.print-bg');
+  if(bg) {
+      bg.removeAttribute('src');
+      bg.style.display = 'none'; 
+  }
+}
+
+// 2. ZMENA POZADIA (Nahratie obrázku)
+function formikChangeBg(input){
+    const file = input.files[0];
+    if(!file) return;
+
+    const w = _formikWin();
+    if(!w){ alert('Formik nie je otvorený.'); return; }
+
+    const fr = new FileReader();
+    fr.onload = (e) => {
+        const doc = w.document;
+        let bg = doc.querySelector('.print-bg');
+        
+        if(!bg){
+            const page = doc.getElementById('a4');
+            bg = doc.createElement('img');
+            bg.className = 'print-bg';
+            page.insertBefore(bg, page.firstChild);
+        }
+
+        bg.src = e.target.result;
+        bg.style.display = 'block';
+        alert("Pozadie bolo zmenené ✅");
+    };
+    fr.readAsDataURL(file);
+    input.value = '';
+}
+
+// 3. ULOŽIŤ AKO (Vrátane pozadia)
+function formikSaveAs(){
+  const w = _formikWin();
+  if(!w){ alert('Formik nie je otvorený.'); return; }
+  
+  try {
+    const doc = w.document;
+    
+    // Získanie blokov
+    const blocks = Array.from(doc.querySelectorAll('.block')).map(b=>{
+      const f = b.querySelector('.block-input');
+      if(!f) return null;
+      return {
+        tag: f.tagName,
+        type: f.type || '',
+        left: b.style.left,
+        top: b.style.top,
+        width: b.style.width,
+        height: b.style.height,
+        value: f.value || f.innerText || '',
+        checked: !!f.checked
+      };
+    }).filter(Boolean);
+
+    // Získanie pozadia (Base64)
+    const bgImg = doc.querySelector('.print-bg');
+    const bgSrc = (bgImg && bgImg.src && bgImg.src.startsWith('data:')) ? bgImg.src : null;
+
+    const payload = {
+      app: 'Formik',
+      version: 2, 
+      savedAt: new Date().toISOString(),
+      background: bgSrc, 
+      blocks
+    };
+
+    const name = prompt('Názov súboru (bez .json):', 'moje_tlacivo');
+    if(!name) return;
+
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name + '.json';
+    a.click();
+  }catch(e){
+    alert('Nepodarilo sa uložiť: ' + e);
+  }
+}
+
+function formikLoadFromFile(){
+  document.getElementById('formikLoadInput').click();
+}
+
+// 4. NAČÍTAŤ ZO SÚBORU (Vrátane pozadia)
+function formikHandleLoad(input){
+  const file = input.files[0];
+  if(!file) return;
+  const w = _formikWin();
+  if(!w){ alert('Najprv otvorte Formik.'); input.value=''; return; }
+
+  const fr = new FileReader();
+  fr.onload = (e) => {
+    try{
+      const payload = JSON.parse(e.target.result);
+      const blocks = payload.blocks || payload.data || [];
+      const doc = w.document;
+      const page = doc.getElementById('a4');
+      if(!page) throw new Error('Nenašiel som plátno #a4');
+
+      // 1. Vyčistiť staré bloky
+      Array.from(doc.querySelectorAll('.block')).forEach(x => x.remove());
+
+      // 2. Nastaviť pozadie (ak je v JSONe)
+      let bg = doc.querySelector('.print-bg');
+      if(payload.background){
+         if(!bg){
+             bg = doc.createElement('img');
+             bg.className = 'print-bg';
+             page.insertBefore(bg, page.firstChild);
+         }
+         bg.src = payload.background;
+         bg.style.display = 'block';
+      } else {
+         if(bg) bg.style.display = 'none';
+      }
+
+      // Helper na vytvorenie bloku
+      function makeBlock(wd, hd){
+        const b = doc.createElement('div');
+        b.className = 'block';
+        b.style.left = '40px'; b.style.top = '40px';
+        b.style.width = wd+'px'; b.style.height = hd+'px';
+        
+        const r = doc.createElement('div');
+        r.className = 'resizer';
+        r.onmousedown = (ev) => { 
+            w.resizing = true; w.active = b; ev.stopPropagation(); 
+        };
+        b.onmousedown = (ev) => {
+            if(w.mode !== 'edit') return;
+            w.active = b; w.ox = ev.offsetX; w.oy = ev.offsetY;
+            w.clearSelection(); b.classList.add('selected');
+        };
+
+        b.appendChild(r);
+        page.appendChild(b);
+        return b;
+      }
+
+      // 3. Vytvoriť nové bloky
+      blocks.forEach(i => {
+        let b;
+        const width = parseInt((i.width||'140px').toString());
+        const height = parseInt((i.height||'18px').toString());
+
+        b = makeBlock(width, height);
+
+        if(i.type === 'date'){
+          const el = doc.createElement('input');
+          el.type = 'date'; el.className = 'block-input'; el.value = i.value||'';
+          b.appendChild(el);
+        } else if(i.type === 'checkbox'){
+          b.classList.add('checkbox');
+          const el = doc.createElement('input');
+          el.type = 'checkbox'; el.className = 'block-input'; el.checked = !!i.checked;
+          b.appendChild(el);
+        } else if((i.tag||'').toUpperCase() === 'TEXTAREA'){
+          const el = doc.createElement('textarea');
+          el.className = 'block-input'; el.value = i.value||'';
+          b.appendChild(el);
+        } else {
+          const el = doc.createElement('div');
+          el.className = 'block-input text'; el.contentEditable = true;
+          el.innerText = i.value||'';
+          b.appendChild(el);
+        }
+
+        b.style.left = i.left||'40px';
+        b.style.top = i.top||'40px';
+        b.style.width = i.width|| (width+'px');
+        b.style.height = i.height|| (height+'px');
+      });
+
+      alert('Načítané ✅ (Polia: ' + blocks.length + ')');
+    } catch(err){
+      console.error(err);
+      alert('Chyba načítania: ' + err.message);
+    }
+    input.value='';
+  };
+  fr.readAsText(file);
+}
+
+// Podklady
+function _profiFormId(){return "profiDg";}
+function _bgKey(){return "KJ_PRINT_BG_IMAGE__"+_profiFormId();}
+function _bgTransformKey(){return "KJ_PRINT_BG_TRANSFORM__"+_profiFormId();}
+function loadPrintBackground(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=(e)=>{const dataUrl=e.target.result;localStorage.setItem(_bgKey(),dataUrl);localStorage.setItem(_bgTransformKey(),JSON.stringify({scale:1,x:0,y:0}));const img=document.getElementById("printBgImg");if(img){img.src=dataUrl;}applyBgTransform();alert("Podklad 1 načítaný ✅");};r.readAsDataURL(file);}
+function clearPrintBackground(){localStorage.removeItem(_bgKey());const img=document.getElementById("printBgImg");if(img){img.removeAttribute("src");}alert("Podklad 1 vymazaný ✅");}
+function applyBgTransform(){const img=document.getElementById("printBgImg");if(!img)return;const t=JSON.parse(localStorage.getItem(_bgTransformKey())||"{}");const scale=(t.scale!=null)?t.scale:1;const x=(t.x!=null)?t.x:0;const y=(t.y!=null)?t.y:0;img.style.setProperty("--bgScale",scale);img.style.setProperty("--bgX",x+"mm");img.style.setProperty("--bgY",y+"mm");const z=document.getElementById("bgZoom");const zv=document.getElementById("bgZoomVal");const xel=document.getElementById("bgX");const yel=document.getElementById("bgY");if(z)z.value=Math.round(scale*100);if(zv)zv.textContent=Math.round(scale*100);if(xel)xel.value=x;if(yel)yel.value=y;}
+function setBgZoom(val){const scale=(parseInt(val,10)||100)/100;const t=JSON.parse(localStorage.getItem(_bgTransformKey())||"{}");t.scale=scale;localStorage.setItem(_bgTransformKey(),JSON.stringify(t));document.getElementById("bgZoomVal").textContent=Math.round(scale*100);const img=document.getElementById("printBgImg");if(img)img.style.setProperty("--bgScale",scale);}
+function setBgOffset(){const x=parseFloat(document.getElementById("bgX")?.value||0)||0;const y=parseFloat(document.getElementById("bgY")?.value||0)||0;const t=JSON.parse(localStorage.getItem(_bgTransformKey())||"{}");t.x=x;t.y=y;localStorage.setItem(_bgTransformKey(),JSON.stringify(t));const img=document.getElementById("printBgImg");if(img){img.style.setProperty("--bgX",x+"mm");img.style.setProperty("--bgY",y+"mm");}}
+function resetBgTransform(){localStorage.removeItem(_bgTransformKey());applyBgTransform();}
+function _bg2Key(){return "KJ_PRINT_BG_IMAGE__"+_profiFormId()+"__P2";}
+function _bg2TransformKey(){return "KJ_PRINT_BG_TRANSFORM__"+_profiFormId()+"__P2";}
+function loadPrintBackground2(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=(e)=>{const dataUrl=e.target.result;localStorage.setItem(_bg2Key(),dataUrl);localStorage.setItem(_bg2TransformKey(),JSON.stringify({scale:1,x:0,y:0}));const img=document.getElementById("printBgImg2");if(img){img.src=dataUrl;}applyBg2Transform();alert("Podklad 2 načítaný ✅");};r.readAsDataURL(file);}
+function clearPrintBackground2(){localStorage.removeItem(_bg2Key());const img=document.getElementById("printBgImg2");if(img){img.removeAttribute("src");}alert("Podklad 2 vymazaný ✅");}
+function applyBg2Transform(){const img=document.getElementById("printBgImg2");if(!img)return;const t=JSON.parse(localStorage.getItem(_bg2TransformKey())||"{}");const scale=(t.scale!=null)?t.scale:1;const x=(t.x!=null)?t.x:0;const y=(t.y!=null)?t.y:0;img.style.setProperty("--bg2Scale",scale);img.style.setProperty("--bg2X",x+"mm");img.style.setProperty("--bg2Y",y+"mm");const z=document.getElementById("bg2Zoom");const zv=document.getElementById("bg2ZoomVal");const xel=document.getElementById("bg2X");const yel=document.getElementById("bg2Y");if(z)z.value=Math.round(scale*100);if(zv)zv.textContent=Math.round(scale*100);if(xel)xel.value=x;if(yel)yel.value=y;}
+function setBg2Zoom(val){const scale=(parseInt(val,10)||100)/100;const t=JSON.parse(localStorage.getItem(_bg2TransformKey())||"{}");t.scale=scale;localStorage.setItem(_bg2TransformKey(),JSON.stringify(t));document.getElementById("bg2ZoomVal").textContent=Math.round(scale*100);const img=document.getElementById("printBgImg2");if(img)img.style.setProperty("--bg2Scale",scale);}
+function setBg2Offset(){const x=parseFloat(document.getElementById("bg2X")?.value||0)||0;const y=parseFloat(document.getElementById("bg2Y")?.value||0)||0;const t=JSON.parse(localStorage.getItem(_bg2TransformKey())||"{}");t.x=x;t.y=y;localStorage.setItem(_bg2TransformKey(),JSON.stringify(t));const img=document.getElementById("printBgImg2");if(img){img.style.setProperty("--bg2X",x+"mm");img.style.setProperty("--bg2Y",y+"mm");}}
+function resetBg2Transform(){localStorage.removeItem(_bg2TransformKey());applyBg2Transform();}
+function _textTransformKey(){return "KJ_PRINT_TEXT_TRANSFORM__"+_profiFormId();}
+function applyTextTransform(){const layer=document.getElementById("textLayer1");if(!layer)return;const t=JSON.parse(localStorage.getItem(_textTransformKey())||"{}");const x=(t.x!=null)?t.x:0;const y=(t.y!=null)?t.y:0;layer.style.setProperty("--txX",x+"mm");layer.style.setProperty("--txY",y+"mm");const xel=document.getElementById("txX");const yel=document.getElementById("txY");if(xel)xel.value=x;if(yel)yel.value=y;}
+function setTextOffset(){const x=parseFloat(document.getElementById("txX")?.value||0)||0;const y=parseFloat(document.getElementById("txY")?.value||0)||0;const t={x,y};localStorage.setItem(_textTransformKey(),JSON.stringify(t));const layer=document.getElementById("textLayer1");if(layer){layer.style.setProperty("--txX",x+"mm");layer.style.setProperty("--txY",y+"mm");}}
+function resetTextTransform(){localStorage.removeItem(_textTransformKey());applyTextTransform();}
+
+// Master
+const MASTER_DIAG_KEY="KJ_MASTER_DIAGNOZY_JSON";
+const MASTER_REAL_KEY="KJ_MASTER_REALIZACIE_JSON";
+function persistMasterToStorage(){try{localStorage.setItem(MASTER_DIAG_KEY,JSON.stringify(MASTER_DIAGNOZY||[]));}catch(e){}try{localStorage.setItem(MASTER_REAL_KEY,JSON.stringify(MASTER_REALIZACIE||[]));}catch(e){}}
+function loadMasterFromStorage(){try{const d=localStorage.getItem(MASTER_DIAG_KEY);if(d){const arr=JSON.parse(d);if(Array.isArray(arr)&&arr.length)MASTER_DIAGNOZY=arr;}}catch(e){}try{const r=localStorage.getItem(MASTER_REAL_KEY);if(r){const arr=JSON.parse(r);if(Array.isArray(arr)&&arr.length)MASTER_REALIZACIE=arr;}}catch(e){}}
+function _downloadJSON(obj,filename){const blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;a.click();}
+function exportMaster(){if(typeof MASTER_DIAGNOZY==="undefined"){alert("MASTER_DIAGNOZY neexistuje.");return;}_downloadJSON(MASTER_DIAGNOZY,"MASTER_DIAGNOZY.json");}
+function importMaster(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=(e)=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data))throw new Error("JSON nie je pole diagnóz");MASTER_DIAGNOZY=data;alert("MASTER načítaný ✅ ("+data.length+" položiek)");try{initManualSelect();}catch(_){}try{renderEditor();}catch(_){}try{persistMasterToStorage();}catch(_){}}catch(err){alert("Chyba MASTER: "+err.message);}input.value="";};r.readAsText(file);}
+function exportRealizacie(){const data=window.MASTER_REALIZACIE||[];_downloadJSON(data,"REALIZACIE.json");}
+function importRealizacie(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=(e)=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data))throw new Error("JSON nie je pole realizácií");MASTER_REALIZACIE=data;try{renderEditor();}catch(_){}try{persistMasterToStorage();}catch(_){}alert("Realizácie načítané ✅ ("+data.length+" položiek)");}catch(err){alert("Chyba realizácie: "+err.message);}input.value="";};r.readAsText(file);}
+</script>
+</body>
+</html>
