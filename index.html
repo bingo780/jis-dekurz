@@ -1753,28 +1753,413 @@ let MASTER_DIAGNOZY = [
 ];
 
 let MASTER_REALIZACIE = [
-  { "realizacia": "Meranie krvného tlaku (TK)" },
-  { "realizacia": "Meranie pulzu" },
-  { "realizacia": "Meranie dychu" },
-  { "realizacia": "Meranie telesnej teploty (TT)" },
-  { "realizacia": "Meranie saturácie (SpO2)" },
-  { "realizacia": "Meranie glykémie + Terapia" },
-  { "realizacia": "Hodnotenie bolesti (VAS)" },
-  { "realizacia": "Bilancia tekutín - Príjem" },
-  { "realizacia": "Bilancia tekutín - Výdaj" },
-  { "realizacia": "Zavedenie PMK (u ženy)" },
-  { "realizacia": "Asistencia pri zavedení PMK (u muža)" },
-  { "realizacia": "Starostlivosť o CVK / I.V. vstup" },
-  { "realizacia": "Oxygenoterapia" },
-  { "realizacia": "Enterálna výživa (Sonda/PEG)" },
-  { "realizacia": "EKG vyšetrenie" },
-  { "realizacia": "Zavedenie periférnej venóznej kanyly (PŽK)" },
-  { "realizacia": "Starostlivosť o ranu / preväz" },
-  { "realizacia": "Aplikácia liekov" },
-  { "realizacia": "Odsávanie dýchacích ciest" },
-  { "realizacia": "Polohovanie pacienta" },
-  { "realizacia": "Odber krvi" },
-  { "realizacia": "Hygienická starostlivosť - celkový kúpeľ" }
+  {
+    "realizacia": "Meranie krvného tlaku (TK)",
+    "vstupy": [
+      {
+        "nazov": "Čas merania",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Systolický tlak",
+        "jednotka": "mmHg"
+      },
+      {
+        "nazov": "Diastolický tlak",
+        "jednotka": "mmHg"
+      }
+    ]
+  },
+  {
+    "realizacia": "Meranie pulzu",
+    "vstupy": [
+      {
+        "nazov": "Čas merania",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Frekvencia",
+        "jednotka": "/min"
+      },
+      {
+        "nazov": "Kvalita",
+        "jednotka": ""
+      }
+    ]
+  },
+  {
+    "realizacia": "Meranie dychu",
+    "vstupy": [
+      {
+        "nazov": "Čas merania",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Frekvencia",
+        "jednotka": "/min"
+      },
+      {
+        "nazov": "Typ",
+        "jednotka": ""
+      }
+    ]
+  },
+  {
+    "realizacia": "Meranie telesnej teploty (TT)",
+    "vstupy": [
+      {
+        "nazov": "Čas merania",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Teplota",
+        "jednotka": "°C"
+      }
+    ]
+  },
+  {
+    "realizacia": "Meranie saturácie (SpO2)",
+    "vstupy": [
+      {
+        "nazov": "Čas merania",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Saturácia",
+        "jednotka": "%"
+      },
+      {
+        "nazov": "Podpora O2",
+        "jednotka": "l/min"
+      }
+    ]
+  },
+  {
+    "realizacia": "Meranie glykémie + Terapia",
+    "vstupy": [
+      {
+        "nazov": "Čas merania",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Hodnota",
+        "jednotka": "mmol/l"
+      },
+      {
+        "nazov": "Podané",
+        "jednotka": "PAD/Inzulín/Nie"
+      },
+      {
+        "nazov": "Názov lieku",
+        "jednotka": ""
+      },
+      {
+        "nazov": "Dávka",
+        "jednotka": "IU/mg"
+      },
+      {
+        "nazov": "Spôsob aplikácie",
+        "jednotka": "s.c./i.v./p.o."
+      }
+    ]
+  },
+  {
+    "realizacia": "Hodnotenie bolesti (VAS)",
+    "vstupy": [
+      {
+        "nazov": "Stupeň",
+        "jednotka": "0-10"
+      }
+    ]
+  },
+  {
+    "realizacia": "Hodnotenie vedomia (GCS)",
+    "vstupy": [
+      {
+        "nazov": "GCS Body",
+        "jednotka": "b"
+      }
+    ]
+  },
+  {
+    "realizacia": "Bilancia tekutín - Príjem",
+    "vstupy": [
+      {
+        "nazov": "Za obdobie",
+        "jednotka": "hod"
+      },
+      {
+        "nazov": "Per os",
+        "jednotka": "ml"
+      },
+      {
+        "nazov": "Infúzie",
+        "jednotka": "ml"
+      }
+    ]
+  },
+  {
+    "realizacia": "Bilancia tekutín - Výdaj",
+    "vstupy": [
+      {
+        "nazov": "Za obdobie",
+        "jednotka": "hod"
+      },
+      {
+        "nazov": "Moč",
+        "jednotka": "ml"
+      },
+      {
+        "nazov": "Iné",
+        "jednotka": "ml"
+      }
+    ]
+  },
+  {
+    "realizacia": "Sledovanie pacienta pri transfúzii (+ asistencia)",
+    "vstupy": [
+      {
+        "nazov": "Typ derivátu",
+        "jednotka": "Ery/Plazma"
+      },
+      {
+        "nazov": "Množstvo",
+        "jednotka": "ml/TU"
+      },
+      {
+        "nazov": "Reakcia",
+        "jednotka": "Bez reakcie/Reakcia"
+      }
+    ]
+  },
+  {
+    "realizacia": "Zavedenie PMK (u ženy)",
+    "vstupy": [
+      {
+        "nazov": "Čas zavedenia",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Veľkosť",
+        "jednotka": "Ch"
+      },
+      {
+        "nazov": "Moč ihneď",
+        "jednotka": "ml"
+      }
+    ]
+  },
+  {
+    "realizacia": "Asistencia pri zavedení PMK (u muža)",
+    "vstupy": [
+      {
+        "nazov": "Čas výkonu",
+        "jednotka": "h:m"
+      },
+      {
+        "nazov": "Veľkosť",
+        "jednotka": "Ch"
+      },
+      {
+        "nazov": "Moč ihneď",
+        "jednotka": "ml"
+      }
+    ]
+  },
+  {
+    "realizacia": "Starostlivosť o CVK / I.V. vstup",
+    "vstupy": [
+      {
+        "nazov": "Úkon",
+        "jednotka": "Preplach/Výmena krytia/Setov"
+      },
+      {
+        "nazov": "Stav vpichu",
+        "jednotka": "Kľudné/Začervenané"
+      }
+    ]
+  },
+  {
+    "realizacia": "Starostlivosť o PORT",
+    "vstupy": [
+      {
+        "nazov": "Úkon",
+        "jednotka": "Napichnutie/Preplach/Ihla von"
+      },
+      {
+        "nazov": "Ihla",
+        "jednotka": "G (veľkosť)"
+      }
+    ]
+  },
+  {
+    "realizacia": "Oxygenoterapia",
+    "vstupy": [
+      {
+        "nazov": "Prietok",
+        "jednotka": "l/min"
+      },
+      {
+        "nazov": "Pomôcka",
+        "jednotka": "Maska/Okuliare/HF"
+      }
+    ]
+  },
+  {
+    "realizacia": "Enterálna výživa (Sonda/PEG)",
+    "vstupy": [
+      {
+        "nazov": "Druh",
+        "jednotka": ""
+      },
+      {
+        "nazov": "Množstvo",
+        "jednotka": "ml"
+      },
+      {
+        "nazov": "Rezíduum",
+        "jednotka": "ml"
+      }
+    ]
+  },
+  {
+    "realizacia": "EKG vyšetrenie",
+    "vstupy": [
+      {
+        "nazov": "Typ",
+        "jednotka": "12-zvod/Monitor"
+      },
+      {
+        "nazov": "Akcia",
+        "jednotka": "SR/FiA/Iné"
+      }
+    ]
+  },
+  {
+    "realizacia": "Zavedenie periférnej venóznej kanyly (PŽK)",
+    "vstupy": [
+      {
+        "nazov": "Veľkosť",
+        "jednotka": "G"
+      },
+      {
+        "nazov": "Miesto",
+        "jednotka": ""
+      }
+    ]
+  },
+  {
+    "realizacia": "Starostlivosť o ranu / preväz",
+    "vstupy": [
+      {
+        "nazov": "Lokalita",
+        "jednotka": ""
+      },
+      {
+        "nazov": "Stav",
+        "jednotka": ""
+      }
+    ]
+  },
+  {
+    "realizacia": "Aplikácia liekov",
+    "vstupy": [
+      {
+        "nazov": "Liek",
+        "jednotka": ""
+      },
+      {
+        "nazov": "Dávka",
+        "jednotka": "mg/ml"
+      },
+      {
+        "nazov": "Spôsob",
+        "jednotka": "i.v./i.m./s.c."
+      }
+    ]
+  },
+  {
+    "realizacia": "Odsávanie dýchacích ciest",
+    "vstupy": [
+      {
+        "nazov": "Sekrét množstvo",
+        "jednotka": "ml"
+      },
+      {
+        "nazov": "Charakter",
+        "jednotka": ""
+      }
+    ]
+  },
+  {
+    "realizacia": "Hrudná drenáž - kontrola",
+    "vstupy": [
+      {
+        "nazov": "Odpad",
+        "jednotka": "ml"
+      },
+      {
+        "nazov": "Oscilácia",
+        "jednotka": "áno/nie"
+      }
+    ]
+  },
+  {
+    "realizacia": "Polohovanie pacienta",
+    "vstupy": [
+      {
+        "nazov": "Poloha",
+        "jednotka": ""
+      },
+      {
+        "nazov": "Čas",
+        "jednotka": "hod"
+      }
+    ]
+  },
+  {
+    "realizacia": "Odber krvi",
+    "vstupy": [
+      {
+        "nazov": "Typ",
+        "jednotka": ""
+      },
+      {
+        "nazov": "Skúmavky",
+        "jednotka": "ks"
+      }
+    ]
+  },
+  {
+    "realizacia": "Odber biologického materiálu - výter",
+    "vstupy": [
+      {
+        "nazov": "Lokalita",
+        "jednotka": "Hrdlo/Nos/Rana/Konečník"
+      }
+    ]
+  },
+  {
+    "realizacia": "Hygienická starostlivosť - celkový kúpeľ"
+  },
+  {
+    "realizacia": "Toaleta dutiny ústnej"
+  },
+  {
+    "realizacia": "Prevencia dekubitov - masáž"
+  },
+  {
+    "realizacia": "Výmena stomického vrecka"
+  },
+  {
+    "realizacia": "Podanie klyzmy"
+  },
+  {
+    "realizacia": "Edukácia pacienta/rodiny"
+  },
+  {
+    "realizacia": "Psychická podpora pacienta"
+  }
 ];
 
 const NURSE_KEY="KJ_NURSES";
