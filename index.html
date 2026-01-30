@@ -595,24 +595,1161 @@ const LEKARSKE_MAPOVANIE={
 };
 
 let MASTER_DIAGNOZY = [
-  { "kod": "A 100", "nazov": "Narušená adaptácia jednotlivca", "ciel_kratky": "Znížiť psychické napätie a podporiť orientáciu pacienta.", "intervencie": "Poskytovať pravdivé a zrozumiteľné informácie o stave a postupoch, aktívne počúvať pacienta, podporovať vyjadrenie obáv a emócií, zabezpečiť pokojné a bezpečné prostredie, zapojiť rodinu podľa možností, sledovať reakcie pacienta na záťaž a zmeny.", "hodnotenie": "Pacient pokojnejší, orientovaný, spolupracuje. Adaptácia primeraná aktuálnemu stavu." },
-  { "kod": "A 110", "nazov": "Intolerancia aktivity", "ciel_kratky": "Znížiť únavu pri fyzickej aktivite.", "intervencie": "Sledovať reakciu pacienta na záťaž, plánovať aktivitu s dostatočným odpočinkom, asistovať pri pohybe, monitorovať vitálne funkcie počas aktivity.", "hodnotenie": "Pacient toleruje aktivitu bez výraznej únavy." },
-  { "kod": "B 110", "nazov": "Akútna bolesť", "ciel_kratky": "Znížiť intenzitu bolesti.", "intervencie": "Hodnotiť bolesť pomocou škály, sledovať účinok liečby podľa ordinácie, zabezpečiť úľavové polohy.", "hodnotenie": "Bolesť znížená na prijateľnú úroveň." },
-  { "kod": "D 120", "nazov": "Neúčinné dýchanie", "ciel_kratky": "Zlepšiť ventiláciu a dychový komfort.", "intervencie": "Monitorovať dychovú frekvenciu, SpO₂ a dychový vzor, polohovať pacienta do úľavovej polohy, zabezpečiť priechodnosť dýchacích ciest, spolupracovať pri oxygenoterapii podľa ordinácie.", "hodnotenie": "Dych stabilizovaný, bez dychovej tiesne." },
-  { "kod": "D 124", "nazov": "Riziko hypoxie", "ciel_kratky": "Predísť poklesu oxygenácie.", "intervencie": "Monitorovať SpO₂, dychový vzor a celkový stav, spolupracovať pri oxygenoterapii podľa ordinácie.", "hodnotenie": "Oxygenácia stabilná." },
-  { "kod": "E 100", "nazov": "Nedostatok informácií", "ciel_kratky": "Zlepšiť informovanosť pacienta.", "intervencie": "Poskytovať informácie primerané zdravotnému stavu a chápaniu pacienta, overovať porozumenie, odpovedať na otázky, zabezpečiť pokojné prostredie pre edukáciu.", "hodnotenie": "Pacient informáciám rozumie, aktívne sa pýta a spolupracuje." },
-  { "kod": "I 120", "nazov": "Infekcia", "ciel_kratky": "Zabrániť šíreniu infekcie.", "intervencie": "Sledovať klinické príznaky infekcie, dodržiavať hygienické opatrenia, zabezpečiť izoláciu podľa potreby, spolupracovať pri liečbe podľa ordinácie.", "hodnotenie": "Príznaky infekcie ustupujú." },
-  { "kod": "K 117", "nazov": "Riziko krvácania", "ciel_kratky": "Predísť vzniku krvácania.", "intervencie": "Sledovať kožu a sliznice, kontrolovať invazívne vstupy, dohliadať na bezpečnosť pacienta.", "hodnotenie": "Krvácanie sa nevyskytlo." },
-  { "kod": "K 118", "nazov": "Nedostatočné prekrvenie tkanív", "ciel_kratky": "Zlepšiť prekrvenie tkanív.", "intervencie": "Sledovať farbu a teplotu kože, polohovať pacienta, podporovať mobilitu podľa stavu.", "hodnotenie": "Prekrvenie tkanív zlepšené." },
-  { "kod": "P 111", "nazov": "Strach", "ciel_kratky": "Znížiť strach pacienta.", "intervencie": "Poskytovať informácie, podporovať pocit bezpečia, komunikovať pokojne.", "hodnotenie": "Strach zmiernený." },
-  { "kod": "P 112", "nazov": "Úzkosť", "ciel_kratky": "Znížiť úroveň úzkosti.", "intervencie": "Sledovať prejavy úzkosti, podporovať relaxáciu, zabezpečiť pokojné prostredie.", "hodnotenie": "Úzkosť zmiernená." },
-  { "kod": "S 100", "nazov": "Nedostatočná sebaopatera v osobnej hygiene", "ciel_kratky": "Zlepšiť schopnosť osobnej hygieny.", "intervencie": "Asistovať pri osobnej hygiene podľa potreby, podporovať samostatnosť, zabezpečiť vhodné pomôcky a bezpečné prostredie.", "hodnotenie": "Pacient zvláda osobnú hygienu s primeranou pomocou." },
-  { "kod": "T 100", "nazov": "Znížený objem telesných tekutín", "ciel_kratky": "Zlepšiť hydratáciu pacienta.", "intervencie": "Monitorovať príjem a výdaj tekutín, sledovať klinické príznaky dehydratácie, podporovať príjem tekutín, spolupracovať pri liečbe podľa ordinácie.", "hodnotenie": "Hydratácia zlepšená, bilancia stabilná." },
-  { "kod": "T 102", "nazov": "Zvýšený objem telesných tekutín", "ciel_kratky": "Znížiť retenciu tekutín.", "intervencie": "Monitorovať bilanciu tekutín, sledovať edémy, hmotnosť a dych, spolupracovať pri liečbe podľa ordinácie.", "hodnotenie": "Retencia tekutín zmiernená." },
-  { "kod": "T 103", "nazov": "Riziko zvýšeného objemu telesných tekutín", "ciel_kratky": "Predísť retencii tekutín.", "intervencie": "Sledovať bilanciu tekutín, klinické príznaky preťaženia.", "hodnotenie": "Riziko sa neprejavilo." },
-  { "kod": "T 112", "nazov": "Horúčka", "ciel_kratky": "Znížiť horúčku.", "intervencie": "Sledovať telesnú teplotu, zabezpečiť dostatočný príjem tekutín, spolupracovať pri liečbe podľa ordinácie.", "hodnotenie": "Horúčka ustúpila." },
-  { "kod": "V 100", "nazov": "Zápcha", "ciel_kratky": "Upraviť vyprázdňovanie stolice.", "intervencie": "Sledovať vyprázdňovanie, podporovať príjem tekutín a pohyb, zabezpečiť intimitu.", "hodnotenie": "Vyprázdňovanie upravené." }
-  // (Pre zjednodušenie tu je len výber, v plnej verzii bude načítaný celý MASTER z JSONu alebo pamäte)
+  {
+    "kod": "A 100",
+    "nazov": "Narušená adaptácia jednotlivca",
+    "ciel_kratky": "Znížiť psychické napätie a podporiť orientáciu pacienta.",
+    "intervencie": "Poskytovať pravdivé a zrozumiteľné informácie o stave a postupoch, aktívne počúvať pacienta, podporovať vyjadrenie obáv a emócií, zabezpečiť pokojné a bezpečné prostredie, zapojiť rodinu podľa možností, sledovať reakcie pacienta na záťaž a zmeny.",
+    "hodnotenie": "Pacient pokojnejší, orientovaný, spolupracuje. Adaptácia primeraná aktuálnemu stavu."
+  },
+  {
+    "kod": "A 101",
+    "nazov": "Riziko narušenej adaptácie jednotlivca",
+    "ciel_kratky": "Predísť maladaptívnym reakciám pacienta.",
+    "intervencie": "Sledovať psychické reakcie pacienta, poskytovať informácie primerané porozumeniu, podporovať pocit bezpečia, včas reagovať na známky úzkosti alebo strachu.",
+    "hodnotenie": "Riziko sa neprejavilo, pacient zvláda situáciu primerane."
+  },
+  {
+    "kod": "A 102",
+    "nazov": "Narušená adaptácia rodiny",
+    "ciel_kratky": "Podporiť zvládanie situácie rodinou pacienta.",
+    "intervencie": "Poskytovať rodine informácie o stave pacienta v rámci kompetencií, podporovať otázky, umožniť kontakt s pacientom, sledovať reakcie rodiny na záťaž.",
+    "hodnotenie": "Rodina informovaná, spolupracuje, reakcie primerané."
+  },
+  {
+    "kod": "A 103",
+    "nazov": "Riziko narušenej adaptácie rodiny",
+    "ciel_kratky": "Predísť zhoršeniu adaptačných reakcií rodiny.",
+    "intervencie": "Včasná komunikácia s rodinou, poskytovanie podpory, sledovanie prejavov stresu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "A 110",
+    "nazov": "Intolerancia aktivity",
+    "ciel_kratky": "Znížiť únavu pri fyzickej aktivite.",
+    "intervencie": "Sledovať reakciu pacienta na záťaž, plánovať aktivitu s dostatočným odpočinkom, asistovať pri pohybe, monitorovať vitálne funkcie počas aktivity.",
+    "hodnotenie": "Pacient toleruje aktivitu bez výraznej únavy."
+  },
+  {
+    "kod": "A 111",
+    "nazov": "Riziko intolerancie aktivity",
+    "ciel_kratky": "Predísť vzniku intolerancie aktivity.",
+    "intervencie": "Sledovať vitálne funkcie, prispôsobiť rozsah aktivity aktuálnemu stavu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "A 112",
+    "nazov": "Nedostatok náhradných aktivít",
+    "ciel_kratky": "Podporiť zmysluplné trávenie času pacienta.",
+    "intervencie": "Navrhovať primerané aktivity podľa stavu, podporovať záujem pacienta, zapojiť rodinu.",
+    "hodnotenie": "Pacient sa zapája do náhradných aktivít."
+  },
+  {
+    "kod": "A 113",
+    "nazov": "Imobilita",
+    "ciel_kratky": "Predchádzať komplikáciám imobility.",
+    "intervencie": "Polohovať pacienta, vykonávať pasívne pohyby, zabezpečiť prevenciu dekubitov, podporovať sebestačnosť.",
+    "hodnotenie": "Bez komplikácií imobility."
+  },
+  {
+    "kod": "A 114",
+    "nazov": "Riziko vzniku imobility",
+    "ciel_kratky": "Predísť zníženiu pohyblivosti.",
+    "intervencie": "Podporovať pohyb podľa možností, sledovať únavu a bolesť.",
+    "hodnotenie": "Mobilita zachovaná."
+  },
+  {
+    "kod": "A 115",
+    "nazov": "Obmedzená pohyblivosť",
+    "ciel_kratky": "Zlepšiť rozsah pohybu.",
+    "intervencie": "Asistovať pri pohybe, podporovať cvičenie, zabezpečiť bezpečnosť.",
+    "hodnotenie": "Pohyblivosť stabilizovaná."
+  },
+  {
+    "kod": "A 116",
+    "nazov": "Riziko úrazu, poranenia",
+    "ciel_kratky": "Zabezpečiť bezpečnosť pacienta.",
+    "intervencie": "Zabezpečiť bezpečné prostredie, dohliadať pri pohybe, používať ochranné pomôcky.",
+    "hodnotenie": "K úrazu nedošlo."
+  },
+  {
+    "kod": "A 117",
+    "nazov": "Vyčerpanosť, únava",
+    "ciel_kratky": "Znížiť subjektívny pocit únavy.",
+    "intervencie": "Plánovať režim dňa s dostatkom odpočinku, sledovať toleranciu záťaže.",
+    "hodnotenie": "Únava zmiernená."
+  },
+  {
+    "kod": "A 120",
+    "nazov": "Alergická reakcia na lieky",
+    "ciel_kratky": "Stabilizovať alergické prejavy.",
+    "intervencie": "Sledovať kožné a systémové prejavy, monitorovať vitálne funkcie, zabezpečiť dokumentáciu alergie, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Alergické prejavy ustúpili."
+  },
+  {
+    "kod": "A 121",
+    "nazov": "Alergická reakcia na potraviny",
+    "ciel_kratky": "Zabrániť zhoršeniu alergickej reakcie.",
+    "intervencie": "Eliminovať alergén z diéty, sledovať reakcie pacienta, zabezpečiť edukáciu.",
+    "hodnotenie": "Bez ďalších alergických prejavov."
+  },
+  {
+    "kod": "A 122",
+    "nazov": "Alergická reakcia na uštipnutie",
+    "ciel_kratky": "Znížiť lokálne a systémové prejavy.",
+    "intervencie": "Sledovať miesto uštipnutia, monitorovať celkový stav, spolupracovať pri liečbe.",
+    "hodnotenie": "Reakcia pod kontrolou."
+  },
+  {
+    "kod": "A 123",
+    "nazov": "Kontaktná alergická reakcia",
+    "ciel_kratky": "Zmierniť kožné prejavy.",
+    "intervencie": "Odstrániť alergén, sledovať stav kože, zabezpečiť starostlivosť o kožu.",
+    "hodnotenie": "Kožné prejavy ustúpili."
+  },
+  {
+    "kod": "A 124",
+    "nazov": "Riziko alergickej reakcie",
+    "ciel_kratky": "Predísť vzniku alergickej reakcie.",
+    "intervencie": "Identifikovať rizikové látky, sledovať pacienta po expozícii.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "A 130",
+    "nazov": "Aspirácia",
+    "ciel_kratky": "Zabezpečiť priechodnosť dýchacích ciest.",
+    "intervencie": "Polohovať pacienta, dohliadať pri príjme potravy, odsávať sekréty podľa potreby, sledovať dych.",
+    "hodnotenie": "Bez známok aspirácie."
+  },
+  {
+    "kod": "A 131",
+    "nazov": "Riziko aspirácie",
+    "ciel_kratky": "Predísť aspirácii.",
+    "intervencie": "Dodržiavať polohovanie, sledovať prehĺtanie, dohliadať pri jedle.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "B 100",
+    "nazov": "Bezmocnosť",
+    "ciel_kratky": "Posilniť pocit kontroly pacienta.",
+    "intervencie": "Podporovať samostatnosť v možnom rozsahu, poskytovať informácie, zapájať pacienta do rozhodovania v rámci kompetencií.",
+    "hodnotenie": "Pacient prejavuje väčšiu aktivitu a spoluprácu."
+  },
+  {
+    "kod": "B 101",
+    "nazov": "Beznádej",
+    "ciel_kratky": "Podporiť pocit nádeje.",
+    "intervencie": "Empatická komunikácia, podpora vyjadrenia emócií, posilňovanie pozitívnych aspektov.",
+    "hodnotenie": "Pacient prejavuje nádej a záujem."
+  },
+  {
+    "kod": "B 102",
+    "nazov": "Duchovná tieseň",
+    "ciel_kratky": "Znížiť duchovné napätie pacienta.",
+    "intervencie": "Rešpektovať hodnoty pacienta, umožniť duchovnú podporu podľa želania, vytvoriť priestor na rozhovor.",
+    "hodnotenie": "Duchovná tieseň zmiernená."
+  },
+  {
+    "kod": "B 110",
+    "nazov": "Akútna bolesť",
+    "ciel_kratky": "Znížiť intenzitu bolesti.",
+    "intervencie": "Hodnotiť bolesť pomocou škály, sledovať účinok liečby podľa ordinácie, zabezpečiť úľavové polohy.",
+    "hodnotenie": "Bolesť znížená na prijateľnú úroveň."
+  },
+  {
+    "kod": "B 111",
+    "nazov": "Chronická bolesť",
+    "ciel_kratky": "Stabilizovať bolesť.",
+    "intervencie": "Pravidelne hodnotiť bolesť, podporovať režimové opatrenia, sledovať vplyv bolesti na aktivitu.",
+    "hodnotenie": "Bolesť stabilizovaná."
+  },
+  {
+    "kod": "B 112",
+    "nazov": "Riziko vzniku bolesti",
+    "ciel_kratky": "Predísť rozvoju bolesti.",
+    "intervencie": "Prevencia bolestivých podnetov, sledovanie stavu, včasná reakcia na ťažkosti.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "D 100",
+    "nazov": "Dekubit I. štádium",
+    "ciel_kratky": "Zabrániť progresii poškodenia kože.",
+    "intervencie": "Pravidelne hodnotiť stav kože, zabezpečiť polohovanie pacienta, odľahčovať tlakové miesta, udržiavať kožu čistú a suchú, používať antidekubitné pomôcky.",
+    "hodnotenie": "Bez progresie dekubitu, koža stabilná."
+  },
+  {
+    "kod": "D 101",
+    "nazov": "Dekubit II. štádium",
+    "ciel_kratky": "Podporiť hojenie dekubitu.",
+    "intervencie": "Sledovať veľkosť a charakter rany, zabezpečiť polohovanie a odľahčenie, vykonávať starostlivosť o ranu podľa štandardov, sledovať známky infekcie.",
+    "hodnotenie": "Dekubit sa hojí, bez známok infekcie."
+  },
+  {
+    "kod": "D 102",
+    "nazov": "Dekubit III. štádium",
+    "ciel_kratky": "Zabrániť infekcii a ďalšiemu poškodeniu tkanív.",
+    "intervencie": "Pravidelne hodnotiť ranu, zabezpečiť odbornú starostlivedost o ranu, polohovať pacienta, sledovať celkový stav a známky infekcie.",
+    "hodnotenie": "Stav rany stabilizovaný, bez akútnych komplikácií."
+  },
+  {
+    "kod": "D 103",
+    "nazov": "Dekubit IV. – V. štádium",
+    "ciel_kratky": "Minimalizovať komplikácie a podporiť hojenie.",
+    "intervencie": "Intenzívne sledovať stav rany, zabezpečiť komplexnú starostlivosť o ranu, polohovať pacienta, monitorovať celkový stav a príznaky infekcie.",
+    "hodnotenie": "Stav dekubitu pod kontrolou."
+  },
+  {
+    "kod": "D 104",
+    "nazov": "Riziko vzniku dekubitov",
+    "ciel_kratky": "Predísť vzniku dekubitov.",
+    "intervencie": "Hodnotiť riziko vzniku dekubitov, pravidelne polohovať pacienta, používať antidekubitné pomôcky, sledovať stav kože.",
+    "hodnotenie": "Dekubity nevznikli."
+  },
+  {
+    "kod": "D 110",
+    "nazov": "Neúčinné dojčenie",
+    "ciel_kratky": "Zlepšiť techniku a efektivitu dojčenia.",
+    "intervencie": "Poskytovať podporu pri dojčení, sledovať techniku prisatia, podporovať kontakt matky s dieťaťom, edukovať matku podľa potrieb.",
+    "hodnotenie": "Efektivita dojčenia sa zlepšila."
+  },
+  {
+    "kod": "D 111",
+    "nazov": "Riziko neúčinného dojčenia",
+    "ciel_kratky": "Predísť problémom s dojčením.",
+    "intervencie": "Sledovať priebeh dojčenia, poskytovať edukáciu a podporu matke.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "D 112",
+    "nazov": "Prerušené dojčenie",
+    "ciel_kratky": "Podporiť obnovenie dojčenia.",
+    "intervencie": "Podporovať matku v dojčení, sledovať stav dieťaťa, poskytovať informácie a podporu.",
+    "hodnotenie": "Dojčenie čiastočne alebo úplne obnovené."
+  },
+  {
+    "kod": "D 113",
+    "nazov": "Riziko prerušeného dojčenia",
+    "ciel_kratky": "Predísť prerušeniu dojčenia.",
+    "intervencie": "Podporovať matku, sledovať možné prekážky dojčenia.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "D 120",
+    "nazov": "Neúčinné dýchanie",
+    "ciel_kratky": "Zlepšiť ventiláciu a dychový komfort.",
+    "intervencie": "Monitorovať dychovú frekvenciu, SpO₂ a dychový vzor, polohovať pacienta do úľavovej polohy, zabezpečiť priechodnosť dýchacích ciest, spolupracovať pri oxygenoterapii podľa ordinácie.",
+    "hodnotenie": "Dych stabilizovaný, bez dychovej tiesne."
+  },
+  {
+    "kod": "D 121",
+    "nazov": "Neúčinné čistenie dýchacích ciest",
+    "ciel_kratky": "Zabezpečiť priechodné dýchacie cesty.",
+    "intervencie": "Sledovať kašeľ a sekréciu, podporovať vykašliavanie, odsávať sekréty podľa potreby, polohovať pacienta.",
+    "hodnotenie": "Sekréty efektívne odstránené."
+  },
+  {
+    "kod": "D 122",
+    "nazov": "Neschopnosť udržiavania spontánneho dýchania",
+    "ciel_kratky": "Zabezpečiť adekvátnu ventiláciu.",
+    "intervencie": "Monitorovať vitálne funkcie, zabezpečiť priechodnosť dýchacích ciest, spolupracovať pri ventilačnej podpore podľa ordinácie.",
+    "hodnotenie": "Respiračný stav stabilizovaný."
+  },
+  {
+    "kod": "D 123",
+    "nazov": "Riziko dusenia",
+    "ciel_kratky": "Predísť vzniku dusenia.",
+    "intervencie": "Dohliadať pri príjme potravy a tekutín, sledovať prehĺtanie, zabezpečiť vhodnú polohu.",
+    "hodnotenie": "K duseniu nedošlo."
+  },
+  {
+    "kod": "D 124",
+    "nazov": "Riziko hypoxie",
+    "ciel_kratky": "Predísť poklesu oxygenácie.",
+    "intervencie": "Monitorovať SpO₂, dychový vzor a celkový stav, spolupracovať pri oxygenoterapii podľa ordinácie.",
+    "hodnotenie": "Oxygenácia stabilná."
+  },
+  {
+    "kod": "E 100",
+    "nazov": "Nedostatok informácií",
+    "ciel_kratky": "Zlepšiť informovanosť pacienta.",
+    "intervencie": "Poskytovať informácie primerané zdravotnému stavu a chápaniu pacienta, overovať porozumenie, odpovedať na otázky, zabezpečiť pokojné prostredie pre edukáciu.",
+    "hodnotenie": "Pacient informáciám rozumie, aktívne sa pýta a spolupracuje."
+  },
+  {
+    "kod": "E 101",
+    "nazov": "Riziko deficitu informácií",
+    "ciel_kratky": "Predísť nedostatku informácií.",
+    "intervencie": "Priebežne poskytovať informácie, sledovať potrebu doplnenia vysvetlení, reagovať na nové otázky pacienta.",
+    "hodnotenie": "Riziko sa neprejavilo, pacient má dostatok informácií."
+  },
+  {
+    "kod": "E 102",
+    "nazov": "Nezáujem o informácie",
+    "ciel_kratky": "Podporiť záujem pacienta o informácie.",
+    "intervencie": "Rešpektovať tempo pacienta, motivovať k spolupráci, poskytovať stručné a zrozumiteľné informácie.",
+    "hodnotenie": "Záujem pacienta o informácie sa zlepšll."
+  },
+  {
+    "kod": "E 103",
+    "nazov": "Nedostatok vedomostí",
+    "ciel_kratky": "Rozšíriť vedomosti pacienta o zdravotnom stave.",
+    "intervencie": "Poskytovať edukáciu zameranú na konkrétne potreby, overovať pochopenie, posilňovať správne postupy.",
+    "hodnotenie": "Pacient preukazuje lepšie porozumenie a správne postupy."
+  },
+  {
+    "kod": "E 104",
+    "nazov": "Riziko nedostatku vedomostí",
+    "ciel_kratky": "Predísť deficitu vedomostí.",
+    "intervencie": "Priebežne edukovať, sledovať potrebu opakovania informácií.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "I 100",
+    "nazov": "Intoxikácia",
+    "ciel_kratky": "Stabilizovať celkový stav pacienta.",
+    "intervencie": "Monitorovať vitálne funkcie a vedomie, sledovať klinické prejavy intoxikácie, zabezpečiť bezpečnosť pacienta, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Stav pacienta stabilizovaný, bez progresie intoxikácie."
+  },
+  {
+    "kod": "I 101",
+    "nazov": "Riziko intoxikácie",
+    "ciel_kratky": "Predísť vzniku intoxikácie.",
+    "intervencie": "Identifikovať rizikové faktory, sledovať stav pacienta, edukovať o bezpečnosti.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "I 110",
+    "nazov": "Sociálna izolácia",
+    "ciel_kratky": "Znížiť pocit osamelosti pacienta.",
+    "intervencie": "Podporovať komunikáciu, umožniť kontakt s rodinou, vytvárať príležitosti na sociálnu interakciu.",
+    "hodnotenie": "Pacient komunikuje, pocit izolácie zmiernený."
+  },
+  {
+    "kod": "I 111",
+    "nazov": "Riziko sociálnej izolácie",
+    "ciel_kratky": "Predísť sociálnej izolácii.",
+    "intervencie": "Sledovať sociálne potreby pacienta, podporovať kontakt s blízkymi.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "I 120",
+    "nazov": "Infekcia",
+    "ciel_kratky": "Zabrániť šíreniu infekcie.",
+    "intervencie": "Sledovať klinické príznaky infekcie, dodržiavať hygienické opatrenia, zabezpečiť izoláciu podľa potreby, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Príznaky infekcie ustupujú."
+  },
+  {
+    "kod": "I 121",
+    "nazov": "Riziko vzniku infekcie",
+    "ciel_kratky": "Predísť vzniku infekcie.",
+    "intervencie": "Dodržiavať aseptické postupy, sledovať invazívne vstupy, monitorovať celkový stav pacienta.",
+    "hodnotenie": "Infekcia nevznikla."
+  },
+  {
+    "kod": "K 100",
+    "nazov": "Narušená verbálna komunikácia",
+    "ciel_kratky": "Zlepšiť schopnosť verbálnej komunikácie pacienta.",
+    "intervencie": "Používať jednoduché a zrozumiteľné vety, zabezpečiť dostatok času na odpoveď, overovať porozumenie, využívať alternatívne formy komunikácie.",
+    "hodnotenie": "Komunikácia zrozumiteľnejšia, pacient reaguje adekvátne."
+  },
+  {
+    "kod": "K 101",
+    "nazov": "Riziko narušenia verbálnej komunikácie",
+    "ciel_kratky": "Predísť zhoršeniu verbálnej komunikácie.",
+    "intervencie": "Sledovať zmeny v komunikácii, prispôsobiť spôsob komunikácie stavu pacienta.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "K 102",
+    "nazov": "Narušená neverbálna komunikácia",
+    "ciel_kratky": "Zlepšiť porozumenie neverbálnych prejavov pacienta.",
+    "intervencie": "Sledovať mimiku, gestá a reakcie pacienta, reagovať primerane na neverbálne prejavy.",
+    "hodnotenie": "Neverbálne prejavy lepšie čitateľné."
+  },
+  {
+    "kod": "K 103",
+    "nazov": "Riziko narušenia neverbálnej komunikácie",
+    "ciel_kratky": "Predísť narušeniu neverbálnej komunikácie.",
+    "intervencie": "Pravidelne sledovať správanie pacienta a jeho reakcie.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "K 104",
+    "nazov": "Narušená sociálna interakcia",
+    "ciel_kratky": "Podporiť sociálny kontakt pacienta.",
+    "intervencie": "Podporovať kontakt s okolím, vytvárať príležitosti na komunikáciu, zapojiť rodinu.",
+    "hodnotenie": "Sociálna interakcia zlepšená."
+  },
+  {
+    "kod": "K 110",
+    "nazov": "Narušená celistvosť kože",
+    "ciel_kratky": "Podporiť hojenie kože.",
+    "intervencie": "Hodnotiť stav kože, zabezpečiť primeranú hygienu, vykonávať starostlivosť o kožu a rany podľa štandardov, sledovať známky infekcie.",
+    "hodnotenie": "Hojenie prebieha bez komplikácií."
+  },
+  {
+    "kod": "K 111",
+    "nazov": "Riziko narušenia celistvosti kože",
+    "ciel_kratky": "Predísť poškodeniu kože.",
+    "intervencie": "Sledovať rizikové miesta, zabezpečiť prevenciu tlaku a vlhkosti, používať ochranné pomôcky.",
+    "hodnotenie": "Koža bez poškodenia."
+  },
+  {
+    "kod": "K 112",
+    "nazov": "Narušená celistvosť tkanív",
+    "ciel_kratky": "Zabrániť zhoršeniu poškodenia tkanív.",
+    "intervencie": "Sledovať rozsah poškodenia, zabezpečiť starostlivosť o ranu, monitorovať príznaky infekcie.",
+    "hodnotenie": "Stav tkanív stabilizovaný."
+  },
+  {
+    "kod": "K 113",
+    "nazov": "Riziko narušenia celistvosti tkanív",
+    "ciel_kratky": "Predísť poškodeniu tkanív.",
+    "intervencie": "Prevencia tlaku a traumy, sledovanie rizikových miest.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "K 114",
+    "nazov": "Zmenený vzhľad kože",
+    "ciel_kratky": "Zlepšiť stav a vzhľad kože.",
+    "intervencie": "Sledovať zmeny kože, zabezpečiť primeranú starostlivosť o kožu, edukovať pacienta.",
+    "hodnotenie": "Vzhľad kože sa zlepšil."
+  },
+  {
+    "kod": "K 115",
+    "nazov": "Svrbenie kože",
+    "ciel_kratky": "Zmierniť svrbenie.",
+    "intervencie": "Sledovať stav kože, zabezpečiť hydratáciu kože, eliminovať dráždivé faktory.",
+    "hodnotenie": "Svrbenie zmiernené."
+  },
+  {
+    "kod": "K 116",
+    "nazov": "Zmenený vzhľad tkanív",
+    "ciel_kratky": "Stabilizovať stav tkanív.",
+    "intervencie": "Sledovať zmeny tkanív, zabezpečiť primeranú starostlivosť.",
+    "hodnotenie": "Zmeny tkanív stabilizované."
+  },
+  {
+    "kod": "K 117",
+    "nazov": "Riziko krvácania",
+    "ciel_kratky": "Predísť vzniku krvácania.",
+    "intervencie": "Sledovať kožu a sliznice, kontrolovať invazívne vstupy, dohliadať na bezpečnosť pacienta.",
+    "hodnotenie": "Krvácanie sa nevyskytlo."
+  },
+  {
+    "kod": "K 118",
+    "nazov": "Nedostatočné prekrvenie tkanív",
+    "ciel_kratky": "Zlepšiť prekrvenie tkanív.",
+    "intervencie": "Sledovať farbu a teplotu kože, polohovať pacienta, podporovať mobilitu podľa stavu.",
+    "hodnotenie": "Prekrvenie tkanív zlepšené."
+  },
+  {
+    "kod": "K 119",
+    "nazov": "Riziko nedostatočného prekrvenia tkanív",
+    "ciel_kratky": "Predísť zhoršeniu prekrvenia.",
+    "intervencie": "Monitorovať stav kože a periférií, zabezpečiť prevenciu tlaku.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "K 120",
+    "nazov": "Zmena sliznice ústnej dutiny",
+    "ciel_kratky": "Zlepšiť stav sliznice ústnej dutiny.",
+    "intervencie": "Zabezpečiť ústnu hygienu, sledovať stav sliznice, eliminovať dráždivé faktory.",
+    "hodnotenie": "Stav sliznice sa zlepšil."
+  },
+  {
+    "kod": "P 100",
+    "nazov": "Narušená pamäť",
+    "ciel_kratky": "Podporiť orientáciu a pamäťové funkcie.",
+    "intervencie": "Opakovane orientovať pacienta v čase, priestore a situácii, používať jednoduché a jasné informácie, vytvárať stabilné prostredie.",
+    "hodnotenie": "Orientácia a pamäťové funkcie stabilizované."
+  },
+  {
+    "kod": "P 101",
+    "nazov": "Zmena poznávacích funkcií",
+    "ciel_kratky": "Zlepšiť kognitívne funkcie pacienta.",
+    "intervencie": "Sledovať správanie a reakcie pacienta, zabezpečiť pokojné prostredie, komunikovať zrozumiteľne a pomaly.",
+    "hodnotenie": "Kognitívne funkcie stabilné."
+  },
+  {
+    "kod": "P 102",
+    "nazov": "Zmenený myšlienkový proces",
+    "ciel_kratky": "Znížiť dezorganizáciu myslenia.",
+    "intervencie": "Udržiavať jednoduchú a jasnú komunikáciu, sledovať prejavy dezorientácie, zabezpečiť bezpečné prostredie.",
+    "hodnotenie": "Myslenie stabilizované."
+  },
+  {
+    "kod": "P 103",
+    "nazov": "Zmenený psychický stav",
+    "ciel_kratky": "Stabilizovať psychický stav pacienta.",
+    "intervencie": "Sledovať zmeny správania, podporovať pocit bezpečia, komunikovať empaticky.",
+    "hodnotenie": "Psychický stav stabilný."
+  },
+  {
+    "kod": "P 104",
+    "nazov": "Riziko zmeny psychického stavu",
+    "ciel_kratky": "Predísť zhoršeniu psychického stavu.",
+    "intervencie": "Priebežne hodnotiť správanie a náladu pacienta.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "P 105",
+    "nazov": "Nadmerná duševná záťaž",
+    "ciel_kratky": "Znížiť psychickú záťaž pacienta.",
+    "intervencie": "Podporovať odpočinok, obmedziť rušivé podnety, poskytovať emocionálnu podporu.",
+    "hodnotenie": "Psychická záťaž zmiernená."
+  },
+  {
+    "kod": "P 106",
+    "nazov": "Citová tieseň",
+    "ciel_kratky": "Znížiť emočné napätie.",
+    "intervencie": "Empatická komunikácia, umožniť vyjadrenie pocitov, zabezpečiť podporu.",
+    "hodnotenie": "Citová tieseň zmiernená."
+  },
+  {
+    "kod": "P 107",
+    "nazov": "Zmena správania",
+    "ciel_kratky": "Stabilizovať správanie pacienta.",
+    "intervencie": "Sledovať správanie, zabezpečiť bezpečné prostredie, komunikovať pokojne.",
+    "hodnotenie": "Správanie stabilizované."
+  },
+  {
+    "kod": "P 108",
+    "nazov": "Psychické zneužívanie",
+    "ciel_kratky": "Zabezpečiť ochranu pacienta.",
+    "intervencie": "Všímať si varovné signály, zabezpečiť ochranu pacienta, informovať príslušné osoby podľa interných postupov.",
+    "hodnotenie": "Bez ďalších známok psychického zneužívania."
+  },
+  {
+    "kod": "P 109",
+    "nazov": "Smútok",
+    "ciel_kratky": "Podporiť spracovanie smútku.",
+    "intervencie": "Poskytovať emocionálnu podporu, umožniť vyjadrenie emócií.",
+    "hodnotenie": "Smútok zvládaný primerane."
+  },
+  {
+    "kod": "P 110",
+    "nazov": "Anticipačný smútok",
+    "ciel_kratky": "Znížiť psychické napätie pacienta.",
+    "intervencie": "Empatická komunikácia, poskytovanie podpory, umožniť rozhovor.",
+    "hodnotenie": "Pacient zvláda situáciu primerane."
+  },
+  {
+    "kod": "P 111",
+    "nazov": "Strach",
+    "ciel_kratky": "Znížiť strach pacienta.",
+    "intervencie": "Poskytovať informácie, podporovať pocit bezpečia, komunikovať pokojne.",
+    "hodnotenie": "Strach zmiernený."
+  },
+  {
+    "kod": "P 112",
+    "nazov": "Úzkosť",
+    "ciel_kratky": "Znížiť úroveň úzkosti.",
+    "intervencie": "Sledovať prejavy úzkosti, podporovať relaxáciu, zabezpečiť pokojné prostredie.",
+    "hodnotenie": "Úzkosť zmiernená."
+  },
+  {
+    "kod": "R 110",
+    "nazov": "Narušené vzťahy v rodine",
+    "ciel_kratky": "Zlepšiť komunikáciu v rodine.",
+    "intervencie": "Podporovať komunikáciu, poskytovať informácie rodine v rámci kompetencií, podporovať spoluprácu.",
+    "hodnotenie": "Vzťahy v rodine stabilnejšie."
+  },
+  {
+    "kod": "R 111",
+    "nazov": "Riziko narušenia vzťahov v rodine",
+    "ciel_kratky": "Predísť zhoršeniu rodinných vzťahov.",
+    "intervencie": "Sledovať komunikáciu rodiny, poskytovať podporu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "R 112",
+    "nazov": "Neúčinné riešenie problémov rodiny",
+    "ciel_kratky": "Podporiť riešenie problémov v rodine.",
+    "intervencie": "Podporovať spoluprácu rodiny, poskytovať informácie, odporučiť odbornú pomoc podľa potreby.",
+    "hodnotenie": "Schopnosť riešenia problémov zlepšená."
+  },
+  {
+    "kod": "R 120",
+    "nazov": "Porucha prijatia roly",
+    "ciel_kratky": "Podporiť prijatie novej roly.",
+    "intervencie": "Poskytovať informácie, podporovať adaptáciu, umožniť vyjadrenie obáv.",
+    "hodnotenie": "Pacient rolu prijíma primerane."
+  },
+  {
+    "kod": "R 121",
+    "nazov": "Riziko neakceptovania roly",
+    "ciel_kratky": "Predísť odmietaniu roly.",
+    "intervencie": "Podporovať adaptáciu pacienta na zchange roly.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "R 122",
+    "nazov": "Narušené plnenie roly",
+    "ciel_kratky": "Zlepšiť schopnosť plniť rolu.",
+    "intervencie": "Podporovať sebestačnosť, poskytovať podporu v rámci možností.",
+    "hodnotenie": "Plnenie roly zlepšené."
+  },
+  {
+    "kod": "R 123",
+    "nazov": "Riziko neplnenia roly",
+    "ciel_kratky": "Predísť neplneniu roly.",
+    "intervencie": "Sledovať schopnosti pacienta, poskytovať podporu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "R 124",
+    "nazov": "Odmietanie plnenia roly",
+    "ciel_kratky": "Znížiť odmietanie plnenia roly.",
+    "intervencie": "Empatická komunikácia, podpora adaptácie, zapojenie pacienta do plánovania starostlivosti.",
+    "hodnotenie": "Spolupráca pacienta zlepšená."
+  },
+  {
+    "kod": "S 100",
+    "nazov": "Nedostatočná sebaopatera v osobnej hygiene",
+    "ciel_kratky": "Zlepšiť schopnosť osobnej hygieny.",
+    "intervencie": "Asistovať pri osobnej hygiene podľa potreby, podporovať samostatnosť, zabezpečiť vhodné pomôcky a bezpečné prostredie.",
+    "hodnotenie": "Pacient zvláda osobnú hygienu s primeranou pomocou."
+  },
+  {
+    "kod": "S 101",
+    "nazov": "Deficit sebaopatery v osobnej hygiene",
+    "ciel_kratky": "Zabezpečiť primeranú hygienickú starostlivosť.",
+    "intervencie": "Poskytovať kompletnú hygienickú starostlivosť, chrániť dôstojnosť pacienta, sledovať stav kože.",
+    "hodnotenie": "Hygienická starostlivosť zabezpečená."
+  },
+  {
+    "kod": "S 102",
+    "nazov": "Riziko deficitu sebaopatery v osobnej hygiene",
+    "ciel_kratky": "Predísť zhoršeniu sebaopatery.",
+    "intervencie": "Sledovať únavu a schopnosti pacienta, včas poskytnúť pomoc.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 103",
+    "nazov": "Nedostatočná sebaopatera v prijímaní potravy",
+    "ciel_kratky": "Zlepšiť schopnosť prijímať potravu.",
+    "intervencie": "Asistovať pri jedení, zabezpečiť vhodnú polohu, sledovať príjem potravy.",
+    "hodnotenie": "Príjem potravy zlepšený."
+  },
+  {
+    "kod": "S 104",
+    "nazov": "Deficit sebaopatery v prijímaní potravy",
+    "ciel_kratky": "Zabezpečiť dostatočný príjem potravy.",
+    "intervencie": "Podávať stravu, sledovať toleranciu a príjem, zabezpečiť komfort pri jedení.",
+    "hodnotenie": "Príjem potravy zabezpečený."
+  },
+  {
+    "kod": "S 105",
+    "nazov": "Riziko deficitu sebaopatery v prijímaní potravy",
+    "ciel_kratky": "Predísť zhoršeniu schopnosti prijímať potravu.",
+    "intervencie": "Sledovať stav pacienta a včas poskytovať pomoc.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 106",
+    "nazov": "Nedostatočná sebaopatera vo vyprázdňovaní",
+    "ciel_kratky": "Zlepšiť schopnosť vyprázdňovania.",
+    "intervencie": "Asistovať pri vyprázdňovaní, zabezpečiť intimitu a bezpečnosť.",
+    "hodnotenie": "Vyprázdňovanie zabezpečené."
+  },
+  {
+    "kod": "S 107",
+    "nazov": "Deficit sebaopatery vo vyprázdňovaní",
+    "ciel_kratky": "Zabezpečiť adekvátne vyprázdňovanie.",
+    "intervencie": "Poskytovať kompletnú pomoc pri vyprázdňovaní, sledovať komfort pacienta.",
+    "hodnotenie": "Vyprázdňovanie zabezpečené."
+  },
+  {
+    "kod": "S 108",
+    "nazov": "Riziko deficitu sebaopatery vo vyprázdňovaní",
+    "ciel_kratky": "Predísť zhoršeniu schopnosti vyprázdňovania.",
+    "intervencie": "Sledovať potreby pacienta a poskytovať pomoc.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 109",
+    "nazov": "Nedostatočná sebaopatera v úprave zovňajšku",
+    "ciel_kratky": "Podporiť starostlivosť o zovňajšok.",
+    "intervencie": "Pomáhať pri úprave zovňajšku, podporovať sebahodnotu pacienta.",
+    "hodnotenie": "Starostlivosť o zovňajšok zabezpečená."
+  },
+  {
+    "kod": "S 110",
+    "nazov": "Deficit sebaopatery v úprave zovňajšku",
+    "ciel_kratky": "Zabezpečiť primeraný vzhľad pacienta.",
+    "intervencie": "Poskytovať pomoc pri úprave zovňajšku, rešpektovať želania pacienta.",
+    "hodnotenie": "Vzhľad pacienta upravený."
+  },
+  {
+    "kod": "S 111",
+    "nazov": "Riziko deficitu sebaopatery v úprave zovňajšku",
+    "ciel_kratky": "Predísť zanedbaniu zovňajšku.",
+    "intervencie": "Sledovať stav pacienta a poskytovať podporu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 112",
+    "nazov": "Nedostatočná sebaopatera v úprave okolia",
+    "ciel_kratky": "Zlepšiť starostlivosť o okolie pacienta.",
+    "intervencie": "Pomáhať pri úprave okolia, zabezpečiť bezpečnosť a poriadok.",
+    "hodnotenie": "Okolie pacienta upravené."
+  },
+  {
+    "kod": "S 113",
+    "nazov": "Deficit sebaopatery v úprave okolia",
+    "ciel_kratky": "Zabezpečiť úpravu okolia pacienta.",
+    "intervencie": "Kompletne zabezpečiť úpravu okolia, eliminovať riziká.",
+    "hodnotenie": "Prostredie zabezpečené."
+  },
+  {
+    "kod": "S 114",
+    "nazov": "Riziko deficitu sebaopatery v úprave okolia",
+    "ciel_kratky": "Predísť zanedbaniu okolia.",
+    "intervencie": "Sledovať schopnosti pacienta, poskytovať podporu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 115",
+    "nazov": "Deficit sebaopatery v aktivitách denného života",
+    "ciel_kratky": "Podporiť samostatnosť v ADL.",
+    "intervencie": "Asistovať pri ADL, podporovať sebestačnosť, zabezpečiť bezpečnosť.",
+    "hodnotenie": "Samostatnosť v ADL zlepšená."
+  },
+  {
+    "kod": "S 120",
+    "nazov": "Narušená sebakoncepcia",
+    "ciel_kratky": "Posilniť sebahodnotenie pacienta.",
+    "intervencie": "Podporovať pozitívne vnímanie seba, poskytovať emocionálnu podporu.",
+    "hodnotenie": "Sebakoncepcia stabilizovaná."
+  },
+  {
+    "kod": "S 121",
+    "nazov": "Riziko narušenia sebakoncepcie",
+    "ciel_kratky": "Predísť zhoršeniu sebakoncepcie.",
+    "intervencie": "Sledovať reakcie pacienta na zmeny, poskytovať podporu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 122",
+    "nazov": "Sebapoškodzovanie",
+    "ciel_kratky": "Zabezpečiť bezpečnosť pacienta.",
+    "intervencie": "Monitorovať správanie, zabezpečiť bezpečné prostredie, spolupracovať s tímom.",
+    "hodnotenie": "Bez prejavov sebapoškodzovania."
+  },
+  {
+    "kod": "S 123",
+    "nazov": "Riziko sebapoškodzovania",
+    "ciel_kratky": "Predísť sebapoškodzovaniu.",
+    "intervencie": "Sledovať varovné signály, zabezpečiť dohľad.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 124",
+    "nazov": "Porucha prijatia vzhľadu vlastného tela",
+    "ciel_kratky": "Podporiť prijatie zmien vzhľadu.",
+    "intervencie": "Poskytovať podporu, umožniť vyjadrenie pocitov.",
+    "hodnotenie": "Prijatie vzhľadu zlepšené."
+  },
+  {
+    "kod": "S 130",
+    "nazov": "Sexuálna dysfunkcia",
+    "ciel_kratky": "Podporiť zvládanie problémov v sexualite.",
+    "intervencie": "Poskytovať diskrétnu podporu, zabezpečiť súkromie, odporučiť odbornú pomoc podľa potreby.",
+    "hodnotenie": "Pacient zvláda situáciu primerane."
+  },
+  {
+    "kod": "S 131",
+    "nazov": "Riziko sexuálnej dysfunkcie",
+    "ciel_kratky": "Predísť rozvoju sexuálnej dysfunkcie.",
+    "intervencie": "Sledovať rizikové faktory, poskytovať informácie.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 140",
+    "nazov": "Narušený spánok",
+    "ciel_kratky": "Zlepšiť kvalitu spánku.",
+    "intervencie": "Podporovať spánkový režim, obmedziť rušivé podnety, zabezpečiť komfort.",
+    "hodnotenie": "Kvalita spánku zlepšená."
+  },
+  {
+    "kod": "S 141",
+    "nazov": "Spánková deprivácia",
+    "ciel_kratky": "Znížiť následky nedostatku spánku.",
+    "intervencie": "Plánovať ošetrovateľské úkony, podporovať odpočinok.",
+    "hodnotenie": "Spánok čiastočne obnovený."
+  },
+  {
+    "kod": "S 142",
+    "nazov": "Riziko poruchy spánku",
+    "ciel_kratky": "Predísť poruchám spánku.",
+    "intervencie": "Sledovať spánkový režim, obmedziť rušenie.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "S 150",
+    "nazov": "Nedostatočná spolupráca jednotlivca",
+    "ciel_kratky": "Zlepšiť spoluprácu pacienta.",
+    "intervencie": "Motivovať pacienta, poskytovať zrozumiteľné informácie, rešpektovať jeho tempo.",
+    "hodnotenie": "Spolupráca pacienta zlepšená."
+  },
+  {
+    "kod": "S 151",
+    "nazov": "Nedostatočná spolupráca rodiny",
+    "ciel_kratky": "Zlepšiť spoluprácu rodiny.",
+    "intervencie": "Komunikovať s rodinou, poskytovať informácie, podporovať zapojenie.",
+    "hodnotenie": "Spolupráca rodiny zlepšená."
+  },
+  {
+    "kod": "S 152",
+    "nazov": "Neschopnosť spolupráce",
+    "ciel_kratky": "Minimalizovať dôsledky nespolupráce.",
+    "intervencie": "Zabezpečiť bezpečnosť pacienta, prispôsobiť prístup stavu pacienta.",
+    "hodnotenie": "Starostlivosť zabezpečená."
+  },
+  {
+    "kod": "S 153",
+    "nazov": "Neochota spolupracovať",
+    "ciel_kratky": "Znížiť odpor pacienta k spolupráci.",
+    "intervencie": "Empatická komunikácia, vysvetľovanie postupov, rešpektovanie pacienta.",
+    "hodnotenie": "Ochota spolupracovať zlepšená."
+  },
+  {
+    "kod": "T 100",
+    "nazov": "Znížený objem telesných tekutín",
+    "ciel_kratky": "Zlepšiť hydratáciu pacienta.",
+    "intervencie": "Monitorovať príjem a výdaj tekutín, sledovať klinické príznaky dehydratácie, podporovať príjem tekutín, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Hydratácia zlepšená, bilancia stabilná."
+  },
+  {
+    "kod": "T 101",
+    "nazov": "Riziko deficitu objemu telesných tekutín",
+    "ciel_kratky": "Predísť dehydratácii.",
+    "intervencie": "Sledovať príjem a výdaj tekutín, monitorovať stav pacienta.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "T 102",
+    "nazov": "Zvýšený objem telesných tekutín",
+    "ciel_kratky": "Znížiť retenciu tekutín.",
+    "intervencie": "Monitorovať bilanciu tekutín, sledovať edémy, hmotnosť a dych, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Retencia tekutín zmiernená."
+  },
+  {
+    "kod": "T 103",
+    "nazov": "Riziko zvýšeného objemu telesných tekutín",
+    "ciel_kratky": "Predísť retencii tekutín.",
+    "intervencie": "Sledovať bilanciu tekutín, klinické príznaky preťaženia.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "T 110",
+    "nazov": "Znížená telesná teplota",
+    "ciel_kratky": "Zvýšiť telesnú teplotu.",
+    "intervencie": "Monitorovať telesnú teplotu, zabezpečiť zahriatie pacienta, sledovať reakciu na opatrenia.",
+    "hodnotenie": "Telesná teplota normalizovaná."
+  },
+  {
+    "kod": "T 111",
+    "nazov": "Zvýšená telesná teplota",
+    "ciel_kratky": "Znížiť telesnú teplotu.",
+    "intervencie": "Monitorovať telesnú teplotu, zabezpečiť fyzikálne ochladzovanie, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Telesná teplota znížená."
+  },
+  {
+    "kod": "T 112",
+    "nazov": "Horúčka",
+    "ciel_kratky": "Znížiť horúčku.",
+    "intervencie": "Sledovať telesnú teplotu, zabezpečiť dostatočný príjem tekutín, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Horúčka ustúpila."
+  },
+  {
+    "kod": "T 113",
+    "nazov": "Porucha termoregulácie",
+    "ciel_kratky": "Stabilizovať termoreguláciu.",
+    "intervencie": "Monitorovať telesnú teplotu, upraviť prostredie a režim pacienta.",
+    "hodnotenie": "Termoregulácia stabilizovaná."
+  },
+  {
+    "kod": "T 114",
+    "nazov": "Riziko poruchy termoregulácie",
+    "ciel_kratky": "Predísť poruche termoregulácie.",
+    "intervencie": "Sledovať telesnú teplotu, eliminovať rizikové faktory.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 100",
+    "nazov": "Zápcha",
+    "ciel_kratky": "Upraviť vyprázdňovanie stolice.",
+    "intervencie": "Sledovať vyprázdňovanie, podporovať príjem tekutín a pohyb, zabezpečiť intimitu.",
+    "hodnotenie": "Vyprázdňovanie upravené."
+  },
+  {
+    "kod": "V 101",
+    "nazov": "Riziko vzniku zápchy",
+    "ciel_kratky": "Predísť vzniku zápchy.",
+    "intervencie": "Sledovať vyprázdňovanie, podporovať režimové opatrenia.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 102",
+    "nazov": "Hnačka",
+    "ciel_kratky": "Znížiť frekvenciu stolice.",
+    "intervencie": "Monitorovať stolicu, sledovať hydratáciu, zabezpečiť hygienu.",
+    "hodnotenie": "Hnačka ustúpila."
+  },
+  {
+    "kod": "V 103",
+    "nazov": "Inkontinencia stolice",
+    "ciel_kratky": "Znížiť epizódy inkontinencie.",
+    "intervencie": "Zabezpečiť hygienu, chrániť kožu, rešpektovať dôstojnosť pacienta.",
+    "hodnotenie": "Komfort pacienta zabezpečený."
+  },
+  {
+    "kod": "V 104",
+    "nazov": "Zmenené vyprázdňovanie stolice",
+    "ciel_kratky": "Stabilizovať vyprázdňovanie.",
+    "intervencie": "Sledovať charakter stolice, podporovať režimové opatrenia.",
+    "hodnotenie": "Vyprázdňovanie stabilizované."
+  },
+  {
+    "kod": "V 105",
+    "nazov": "Meteorizmus",
+    "ciel_kratky": "Znížiť pocit nafukovania.",
+    "intervencie": "Sledovať toleranciu stravy, podporovať pohyb, zabezpečiť komfort.",
+    "hodnotenie": "Meteorizmus zmiernený."
+  },
+  {
+    "kod": "V 106",
+    "nazov": "Retencia moča",
+    "ciel_kratky": "Zabezpečiť vyprázdnenie močového mechúra.",
+    "intervencie": "Sledovať močenie, zabezpečiť intimitu, spolupracovať pri riešení podľa ordinácie.",
+    "hodnotenie": "Močenie obnovené."
+  },
+  {
+    "kod": "V 107",
+    "nazov": "Inkontinencia moča",
+    "ciel_kratky": "Znížiť epizódy inkontinencie.",
+    "intervencie": "Zabezpečiť hygienu, chrániť kožu, používať vhodné pomôcky.",
+    "hodnotenie": "Komfort pacienta zabezpečený."
+  },
+  {
+    "kod": "V 108",
+    "nazov": "Pomočovanie",
+    "ciel_kratky": "Znížiť výskyt pomočovania.",
+    "intervencie": "Sledovať režim močenia, zabezpečiť podporu a hygienu.",
+    "hodnotenie": "Výskyt pomočovania znížený."
+  },
+  {
+    "kod": "V 109",
+    "nazov": "Zmenené vyprázdňovanie moča",
+    "ciel_kratky": "Stabilizovať močenie.",
+    "intervencie": "Monitorovať močenie, sledovať príznaky ťažkostí.",
+    "hodnotenie": "Močenie stabilizované."
+  },
+  {
+    "kod": "V 120",
+    "nazov": "Zmenená výživa – väčší príjem ako telesná potreba",
+    "ciel_kratky": "Upraviť energetický príjem.",
+    "intervencie": "Sledovať príjem potravy, podporovať vhodné stravovanie.",
+    "hodnotenie": "Príjem potravy upravený."
+  },
+  {
+    "kod": "V 121",
+    "nazov": "Riziko väčšieho príjmu potravy ako telesná potreba",
+    "ciel_kratky": "Predísť nadmernému príjmu potravy.",
+    "intervencie": "Monitorovať príjem potravy, edukovať pacienta.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 122",
+    "nazov": "Zmenená výživa – menší príjem ako telesná potreba",
+    "ciel_kratky": "Zvýšiť príjem potravy.",
+    "intervencie": "Sledovať príjem potravy, podporovať časté malé porcie, zabezpečiť komfort.",
+    "hodnotenie": "Príjem potravy zlepšený."
+  },
+  {
+    "kod": "V 123",
+    "nazov": "Riziko menšieho príjmu potravy ako telesná potreba",
+    "ciel_kratky": "Predísť zníženému príjmu potravy.",
+    "intervencie": "Sledovať príjem potravy a chuť do jedla.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 124",
+    "nazov": "Odmietanie potravy",
+    "ciel_kratky": "Podporiť príjem potravy.",
+    "intervencie": "Zistiť príčiny odmietania, podporovať príjem, rešpektovať preferencie.",
+    "hodnotenie": "Príjem potravy čiastočne obnovený."
+  },
+  {
+    "kod": "V 125",
+    "nazov": "Riziko odmietania potravy",
+    "ciel_kratky": "Predísť odmietaniu potravy.",
+    "intervencie": "Sledovať apetít a toleranciu stravy.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 126",
+    "nazov": "Porucha prehĺtania",
+    "ciel_kratky": "Zabezpečiť bezpečný príjem potravy.",
+    "intervencie": "Sledovať prehĺtanie, upraviť konzistenciu stravy, dohliadať pri jedle.",
+    "hodnotenie": "Príjem potravy bezpečný."
+  },
+  {
+    "kod": "V 127",
+    "nazov": "Riziko poruchy prehĺtania",
+    "ciel_kratky": "Predísť poruche prehĺtania.",
+    "intervencie": "Sledovať prehĺtanie, dodržiavať bezpečnostné opatrenia.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 128",
+    "nazov": "Nechutenstvo",
+    "ciel_kratky": "Zlepšiť chuť do jedla.",
+    "intervencie": "Podporovať malé časté porcie, sledovať preferencie pacienta.",
+    "hodnotenie": "Chuť do jedla zlepšená."
+  },
+  {
+    "kod": "V 129",
+    "nazov": "Riziko nechutenstva",
+    "ciel_kratky": "Predísť zníženiu chuti do jedla.",
+    "intervencie": "Sledovať apetít, podporovať príjem potravy.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 130",
+    "nazov": "Nevoľnosť",
+    "ciel_kratky": "Znížiť pocit nevoľnosti.",
+    "intervencie": "Sledovať intenzitu nevoľnosti, zabezpečiť komfort, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Nevoľnosť ustúpila."
+  },
+  {
+    "kod": "V 131",
+    "nazov": "Zvracanie",
+    "ciel_kratky": "Zabrániť dehydratácii a komplikáciám.",
+    "intervencie": "Sledovať zvracanie, zabezpečiť hydratáciu, chrániť dýchacie cesty.",
+    "hodnotenie": "Zvracanie ustúpila."
+  },
+  {
+    "kod": "V 132",
+    "nazov": "Riziko zvracania",
+    "ciel_kratky": "Predísť zvracaniu.",
+    "intervencie": "Sledovať toleranciu stravy, dodržiavať režimové opatrenia.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 133",
+    "nazov": "Pálenie záhy",
+    "ciel_kratky": "Znížiť pálenie záhy.",
+    "intervencie": "Sledovať príznaky, upraviť polohu po jedle, spolupracovať pri liečbe podľa ordinácie.",
+    "hodnotenie": "Pálenie záhy zmiernené."
+  },
+  {
+    "kod": "V 134",
+    "nazov": "Riziko pálenia záhy",
+    "ciel_kratky": "Predísť páleniu záhy.",
+    "intervencie": "Dodržiavať režimové opatrenia, sledovať toleranciu stravy.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 135",
+    "nazov": "Zvýšený príjem tekutín",
+    "ciel_kratky": "Upraviť príjem tekutín.",
+    "intervencie": "Monitorovať príjem tekutín, edukovať pacienta.",
+    "hodnotenie": "Príjem tekutín upravený."
+  },
+  {
+    "kod": "V 136",
+    "nazov": "Riziko zvýšeného príjmu tekutín",
+    "ciel_kratky": "Predísť nadmernému príjmu tekutín.",
+    "intervencie": "Sledovať príjem tekutín.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "V 137",
+    "nazov": "Znížený príjem tekutín",
+    "ciel_kratky": "Zvýšiť príjem tekutín.",
+    "intervencie": "Podporovať príjem tekutín, sledovať hydratáciu.",
+    "hodnotenie": "Príjem tekutín zlepšený."
+  },
+  {
+    "kod": "V 138",
+    "nazov": "Riziko zníženého príjnu tekutín",
+    "ciel_kratky": "Predísť dehydratácii.",
+    "intervencie": "Sledovať príjem tekutín a celkový stav.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "Z 100",
+    "nazov": "Zmenené vnímanie chuti",
+    "ciel_kratky": "Zlepšiť vnímanie chuti.",
+    "intervencie": "Sledovať zmeny chuti, podporovať výber potravy podľa tolerancie.",
+    "hodnotenie": "Vnímanie chuti stabilizované."
+  },
+  {
+    "kod": "Z 101",
+    "nazov": "Riziko zmeneného vnímania chuti",
+    "ciel_kratky": "Predísť poruche vnímania chuti.",
+    "intervencie": "Sledovať zmeny v chuti.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "Z 102",
+    "nazov": "Zmenené vnímanie čuchu",
+    "ciel_kratky": "Zlepšiť vnímanie čuchu.",
+    "intervencie": "Sledovať zmeny čuchu, zabezpečiť bezpečné prostredie.",
+    "hodnotenie": "Vnímanie čuchu stabilizované."
+  },
+  {
+    "kod": "Z 103",
+    "nazov": "Riziko zmeneného vnímania čuchu",
+    "ciel_kratky": "Predísť poruche čuchu.",
+    "intervencie": "Monitorovať zmeny čuchu.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "Z 104",
+    "nazov": "Zmenené sluchové vnímanie",
+    "ciel_kratky": "Zlepšiť sluchové vnímanie.",
+    "intervencie": "Komunikovať zrozumiteľne, zabezpečiť pomôcky, sledovať reakcie pacienta.",
+    "hodnotenie": "Sluchové vnímanie stabilizované."
+  },
+  {
+    "kod": "Z 105",
+    "nazov": "Riziko zmeneného sluchové vnímania",
+    "ciel_kratky": "Predísť zhoršeniu sluchu.",
+    "intervencie": "Sledovať reakcie na zvukové podnety.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "Z 106",
+    "nazov": "Zmenené hmatové vnímanie",
+    "ciel_kratky": "Zlepšiť hmatové vnímanie.",
+    "intervencie": "Sledovať reakcie na dotyk, chrániť pred poranením.",
+    "hodnotenie": "Hmatové vnímanie stabilizované."
+  },
+  {
+    "kod": "Z 107",
+    "nazov": "Riziko zmeneného hmatové vnímania",
+    "ciel_kratky": "Predísť poruche hmatového vnímania.",
+    "intervencie": "Monitorovať reakcie pacienta.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  },
+  {
+    "kod": "Z 108",
+    "nazov": "Zmenené zrakové vnímanie",
+    "ciel_kratky": "Zlepšiť zrakové vnímanie.",
+    "intervencie": "Zabezpečiť dobré osvetlenie, odstrániť prekážky, sledovať orientáciu.",
+    "hodnotenie": "Zrakové vnímanie stabilizované."
+  },
+  {
+    "kod": "Z 109",
+    "nazov": "Riziko zmeneného zrakové vnímania",
+    "ciel_kratky": "Predísť zhoršeniu zraku.",
+    "intervencie": "Monitorovať orientáciu a reakcie pacienta.",
+    "hodnotenie": "Riziko sa neprejavilo."
+  }
 ];
 
 let MASTER_REALIZACIE = [
