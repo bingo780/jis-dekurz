@@ -184,11 +184,11 @@ button:active{background:var(--primary-dark)}
     <div class="section-title" style="margin-top:0;">🖨️ Nastavenie tlače</div>
     <div class="sub">Vyber typ formulára, ktorý chceš tlačiť.</div>
     
-    <label>Výber podkladu pre 1. stranu</label>
-    <select id="github_bg_select" style="font-weight:bold; color:var(--primary); margin-bottom:15px; width:100%; padding:10px;">
-        <option value="podklad_strana1_A.jpg">Typ A (podklad_strana1_A.jpg)</option>
-        <option value="podklad_strana1_B.jpg">Typ B (podklad_strana1_B.jpg)</option>
-    </select>
+ <label>Výber podkladu pre 1. stranu</label>
+<select id="github_bg_select" onchange="changeBgFromSelect(this.value)" style="font-weight:bold; color:var(--primary); margin-bottom:15px; width:100%; padding:10px;">
+    <option value="podklad_strana1_A.jpg">Typ A (podklad_strana1_A.jpg)</option>
+    <option value="podklad_strana1_B.jpg">Typ B (podklad_strana1_B.jpg)</option>
+</select>
 
     <div class="switch">
         <input type="checkbox" id="use_bg_print" checked>
@@ -2325,8 +2325,22 @@ function loadSession(input){
 /* ========================================================== */
 
 const NOTES_KEY="KJ_PREDEF_NOTES";
-let PREDEF_NOTES=JSON.parse(localStorage.getItem(NOTES_KEY)||"{}");
-function refreshMainNotes(){
+// Skúsime načítať z pamäte, ak tam nič nie je, použijeme tieto predvolené:
+let PREDEF_NOTES = JSON.parse(localStorage.getItem(NOTES_KEY) || "null");
+
+if (!PREDEF_NOTES) {
+    PREDEF_NOTES = {
+        "Isoket": " hod. napojená fl. 250 ml F1/1 + Isoket 2 amp.i.v. ( ml/h),",
+        "Dobutamin": " hod. napojená fl. 250 ml F1/1 + Dobutamin 250 mg.i.v. ( ml/h),",
+        "Neoton": " hod. napojená fl. 100 ml F1/1 + Neoton 1 gr.i.v. ( ml/h),",
+        "Noradrenalin": " hod. napojená fl. 250 ml 5G + Noradrenalin 5 amp.i.v. ( ml/h),",
+        "Heparín bolus": " hod. bolus 5000j i.v., následne kontinuálne infúznou pumpou.", // <--- TU BOLA CHYBA (DOPLNENÁ ČIARKA)
+        "Heparín /kg:100x20 je ml/h aPTT index 1,5-2,5 najlepšie 2": "napojená fl. 250 ml F1/1 + Heparín 25 000j. .i.v. ( ml/h),",
+        "Tensamin": " hod. napojená fl. 250 ml F1/1 + Tensamin 200 mg. i.v. ( ml/h),",
+        "Cordarone 500 ml/h, 50 ml/h, 50 ml/h": " hod. napojená  fl 250 ml 5G + Cordarone 300 mg. i.v. ( ml/h),"
+    };
+
+}function refreshMainNotes(){
  const sel = document.getElementById("noteSelect");if(!sel)return;
  sel.innerHTML="<option value=''>— vyber —</option>";
  Object.keys(PREDEF_NOTES).sort().forEach(k=>{const o=document.createElement("option");o.value=k;o.textContent=k;sel.appendChild(o)});
@@ -2345,7 +2359,15 @@ function removeNoteMain(){
 }
 
 const FREE_NOTES_KEY="KJ_FREE_PREDEF_NOTES";
-let FREE_NOTES=JSON.parse(localStorage.getItem(FREE_NOTES_KEY)||"{}");
+// Skúsime načítať z pamäte. Ak nič, použijeme tvoje texty:
+let FREE_NOTES = JSON.parse(localStorage.getItem(FREE_NOTES_KEY) || "null");
+
+if (!FREE_NOTES) {
+    FREE_NOTES = {
+        "Muž - príjem": "- pacient prijatý, uložený na lôžko, vyšetrený, má CHIR 1 deň, asistencia pri zavádzaní PK, PK 1 deň, P+V, MM:    ml/h. Podávaná terapia dľa ordinácie lekára.",
+        "Žena - príjem": "- pacienntka prijatá, uložená na lôžko, vyšetrená, má CHIR 1 deň, zavedený PK, PK 1 deň, P+V, MM:    ml/h. Podávaná terapia dľa ordinácie lekára."
+    };
+}
 function refreshFreeNotes(){
  const sel = document.getElementById("freeNoteSelect");if(!sel)return;
  sel.innerHTML="<option value=''>— vyber —</option>";
@@ -2369,19 +2391,33 @@ function printSelected(){
  const sel = ACTIVE.filter(o => o.print);
  if(!sel.length){ alert("Vyberte aspoň jednu diagnózu"); return; }
  
- // GITHUB ÚPRAVA
+ // 1. Ošetrenie či tlačiť pozadie všeobecne (checkbox)
  const useBg = document.getElementById("use_bg_print");
  if(useBg && !useBg.checked) {
      document.body.classList.add("no-bg-print");
  } else {
      document.body.classList.remove("no-bg-print");
  }
+
+ // 2. LOGIKA PRE 2. STRANU (Toto je tá zmena)
  const bgSelect = document.getElementById("github_bg_select");
- if(bgSelect) {
-     document.getElementById("printBgImg").src = bgSelect.value;
-     document.getElementById("printBgImg2").src = "podklad_strana2.jpg";
+ const img2 = document.getElementById("printBgImg2");
+
+ if (bgSelect && img2) {
+     // Skontrolujeme, či je vybraný "Typ A"
+     // (porovnávame časť názvu, aby to fungovalo aj keby sa zmenila koncovka)
+     if (bgSelect.value.includes("podklad_strana1_A")) {
+         // Ak je Typ A, zapneme pozadie pre 2. stranu
+         img2.src = "podklad_strana2.jpg";
+         img2.style.display = "block";
+     } else {
+         // Ak je Typ B (alebo iné), vypneme pozadie 2. strany
+         img2.src = ""; 
+         img2.style.display = "none";
+     }
  }
  
+ // 3. Vyplnenie hlavičky a textov
  document.getElementById("ph_header").innerHTML = 
     document.getElementById("pac_priezvisko").value + " " + document.getElementById("pac_meno").value + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + 
     document.getElementById("pac_rc").value + "&nbsp;&nbsp;&nbsp;&nbsp;" + 
@@ -2650,6 +2686,127 @@ function exportMaster(){if(typeof MASTER_DIAGNOZY==="undefined"){alert("MASTER_D
 function importMaster(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=(e)=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data))throw new Error("JSON nie je pole diagnóz");MASTER_DIAGNOZY=data;alert("MASTER načítaný ✅ ("+data.length+" položiek)");try{initManualSelect();}catch(_){}try{renderEditor();}catch(_){}try{persistMasterToStorage();}catch(_){}}catch(err){alert("Chyba MASTER: "+err.message);}input.value="";};r.readAsText(file);}
 function exportRealizacie(){const data=window.MASTER_REALIZACIE||[];_downloadJSON(data,"REALIZACIE.json");}
 function importRealizacie(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=(e)=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data))throw new Error("JSON nie je pole realizácií");MASTER_REALIZACIE=data;try{renderEditor();}catch(_){}try{persistMasterToStorage();}catch(_){}alert("Realizácie načítané ✅ ("+data.length+" položiek)");}catch(err){alert("Chyba realizácie: "+err.message);}input.value="";};r.readAsText(file);}
+</script>
+<script>
+(function() {
+    // 1. Automatické vloženie panela na začiatok
+    // Nájdeme prvú kartu (kde sú údaje pacienta) a vložíme panel pred ňu
+    const firstCard = document.querySelector('.card');
+    if (firstCard && !document.getElementById('jisBridgePanel')) {
+        const panel = document.createElement('div');
+        panel.id = 'jisBridgePanel';
+        panel.style.cssText = "background:#eff6ff; border:2px solid #3b82f6; padding:15px; border-radius:12px; margin-bottom:20px;";
+        panel.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="margin:0; color:#1e40af; font-size:16px;">🏥 Načítať z Centrálnej DB</h3>
+                <span id="dbStatus" style="font-weight:bold; color:red; font-size:12px;">🔴 Odpojené</span>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button type="button" onclick="connectDB()" style="background:#3b82f6; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-weight:bold;">🔗 Pripojiť DB</button>
+                <select id="jisImportSelect" style="flex:1; border:1px solid #3b82f6; padding:8px; border-radius:6px; color:#1e3a8a; font-weight:bold;">
+                    <option value="">-- Najprv pripojte DB --</option>
+                </select>
+                <button type="button" onclick="loadFromJIS()" style="background:#16a34a; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:bold;">⬇️ Použiť</button>
+            </div>
+        `;
+        firstCard.parentNode.insertBefore(panel, firstCard);
+    }
+
+    // 2. Logika pre DB
+    let dbHandle = null;
+
+    window.connectDB = async function() {
+        try {
+            [dbHandle] = await window.showOpenFilePicker({
+                id: 'jis_db',
+                types: [{ description: 'JIS Databáza', accept: { 'application/json': ['.json'] } }]
+            });
+            
+            await refreshDB();
+            
+            // Auto-refresh každých 10s
+            setInterval(refreshDB, 10000);
+            
+            document.getElementById("dbStatus").innerText = "✅ Pripojené";
+            document.getElementById("dbStatus").style.color = "#16a34a";
+            alert("Databáza pripojená. Vyberte pacienta zo zoznamu.");
+        } catch(e) { console.error(e); alert("Nepodarilo sa pripojiť."); }
+    };
+
+    window.refreshDB = async function() {
+        if(!dbHandle) return;
+        try {
+            const file = await dbHandle.getFile();
+            const text = await file.text();
+            const db = JSON.parse(text);
+            const sel = document.getElementById("jisImportSelect");
+            
+            // Zapamätáme si aktuálny výber
+            const currentVal = sel.value;
+            
+            sel.innerHTML = '<option value="">-- Vyberte pacienta --</option>';
+            
+            if(db.patients && Array.isArray(db.patients)) {
+                db.patients.forEach((p, index) => {
+                    const opt = document.createElement("option");
+                    if (p && p.surname) {
+                        opt.value = JSON.stringify(p);
+                        opt.textContent = `Lôžko ${index+1}: ${p.surname} ${p.name}`;
+                        opt.style.fontWeight = "bold";
+                    } else {
+                        opt.value = "";
+                        opt.textContent = `Lôžko ${index+1}: --- Voľné ---`;
+                        opt.disabled = true;
+                        opt.style.color = "#ccc";
+                    }
+                    sel.appendChild(opt);
+                });
+            }
+            
+            // Obnovíme výber ak je to možné
+            if(currentVal) sel.value = currentVal;
+            
+        } catch(e) { console.error(e); }
+    };
+
+    window.loadFromJIS = function() {
+        const sel = document.getElementById("jisImportSelect");
+        if (!sel.value) { alert("Vyberte pacienta."); return; }
+
+        const p = JSON.parse(sel.value);
+
+        // Mapovanie do vašich políčok
+        if(document.getElementById("pac_meno")) document.getElementById("pac_meno").value = p.name || "";
+        if(document.getElementById("pac_priezvisko")) document.getElementById("pac_priezvisko").value = p.surname || "";
+        if(document.getElementById("pac_rc")) document.getElementById("pac_rc").value = p.rc || "";
+        if(document.getElementById("pac_pois")) document.getElementById("pac_pois").value = p.insurance || "";
+        if(document.getElementById("pac_icd")) document.getElementById("pac_icd").value = p.icd || "";
+        
+        // Spustenie vašej logiky pre načítanie diagnóz (ak existuje)
+        if(p.icd && typeof loadDiagnostiky === 'function') {
+            const code = p.icd.toUpperCase();
+            // Skúsime nájsť zhodu v selecte
+            const lekSel = document.getElementById("lekarska");
+            if(lekSel) {
+                if(code.startsWith("I21")) lekSel.value = "IM";
+                else if(code.startsWith("I20")) lekSel.value = "AP";
+                else if(code.startsWith("I50") || code.startsWith("J81")) lekSel.value = "EDEM";
+                else lekSel.value = "";
+                loadDiagnostiky();
+            }
+        }
+
+        // Efekt (blikne)
+        const box = document.getElementById("jisBridgePanel");
+        box.style.backgroundColor = "#bbf7d0";
+        setTimeout(() => box.style.backgroundColor = "#eff6ff", 500);
+    };
+
+})();
+ function changeBgFromSelect(val) {
+    const img = document.getElementById("printBgImg");
+    if(img) img.src = val;
+}
 </script>
 </body>
 </html>
