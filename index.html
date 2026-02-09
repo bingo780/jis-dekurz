@@ -4,7 +4,55 @@
 <meta charset="UTF-8">
 <title>Sesterské diagnózy – KJ JIS – v1.9.12 (Full Save)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'>
+/* ===== JIS CORE STABLE INIT ===== */
+
+// odložený štart systému (zabráni zamrznutiu po unlock)
+function startCore(){
+  console.log("JIS CORE start");
+
+  // OCR sa inicializuje až pri použití
+  window.OCR_READY = false;
+
+  // prednačítanie tlačových obrázkov až idle
+  if('requestIdleCallback' in window){
+    requestIdleCallback(()=>{ preloadPrintImagesSafe(); });
+  } else {
+    setTimeout(()=>preloadPrintImagesSafe(),1500);
+  }
+}
+
+// bezpečné preload obrázkov
+function preloadPrintImagesSafe(){
+  const ids=["printBgImg","printBgImg2"];
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el || !el.src) return;
+    const i=new Image();
+    i.src=el.src;
+  });
+}
+
+// prepísanie login unlock (stabil)
+const _origCheckPass = checkPass;
+checkPass = function(){
+  const input = document.getElementById('passInput');
+  const err = document.getElementById('login-error');
+  if(input.value === ACCESS_CODE){
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-content').style.display = 'block';
+
+      // kľúčové: odložený štart
+      setTimeout(startCore,80);
+
+  } else {
+      err.style.display = 'block';
+      input.value = '';
+      input.focus();
+  }
+};
+
+</script>
 
 <style>
 /* ZÁKLADNÉ ŠTÝLY */
